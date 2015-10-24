@@ -12,8 +12,8 @@ func main() {
 
     //======================Account=======================
     //account.GetAllAccounts()
-    //account.GetCustomerWithId("56241a13de4bf40b1711287b")
-	//account.GetAccountsWithId("56241a12de4bf40b17111f9d")
+    //account.GetAccountWithId("56241a13de4bf40b1711287b")
+	//account.GetAccountsOfCustomer("56241a12de4bf40b17111f9d")
     //account.CreateAccount("56241a12de4bf40b17111f9d", "Checking", "Account to Delete", 44444, 44444)
     //account.UpdateAccount("562b06890afebb140066cd57", "Iron Man's Account")
     //account.DeleteAccount("562b073f0afebb140066cd58")

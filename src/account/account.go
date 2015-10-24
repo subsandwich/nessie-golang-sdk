@@ -30,8 +30,8 @@ func GetAllAccounts(){
     fmt.Println("Response Body:", string(body))
 }
 
-//GET: Returns the customer with the specific id
-func GetCustomerWithId(accountId string){
+//GET: Returns the account with the specific id
+func GetAccountWithId(accountId string){
 
     url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
 
@@ -49,7 +49,7 @@ func GetCustomerWithId(accountId string){
 }
 
 //GET: Returns the accounts associated with the specific customer
-func GetAccountsWithId(customerId string){
+func GetAccountsOfCustomer(customerId string){
 
     url := baseUrl + "/customers/" + customerId+ "/accounts?key=" + apiKey
 
