@@ -9,12 +9,68 @@ import(
     "../shared"
 )
 
+var baseUrl = "http://api.reimaginebanking.com/"
 var apiKey = shared.ApiKey
 
+//GET: Returns the accounts that have been assigned to you
+func GetAllAccounts(){
 
-func CreateAccount(customerID string, accountType string, nickname string, rewards int, balance int){
+    url := "http://api.reimaginebanking.com/accounts?key=" + apiKey
 
-    url := "http://api.reimaginebanking.com/customers/" + customerID + "/accounts?key=" + apiKey
+    req, err := http.NewRequest("GET", url, nil)
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("response Body:", string(body))
+}
+
+//GET: Returns the customer with the specific id
+func GetCustomerWithId(accountId string){
+
+    url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
+
+    req, err := http.NewRequest("GET", url, nil)
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("response Body:", string(body))
+}
+
+//GET: Returns the accounts associated with the specific customer
+func GetAccountsWithId(customerId string){
+
+    url := baseUrl + "/customers/" + customerId+ "/accounts?key=" + apiKey
+
+    req, err := http.NewRequest("GET", url, nil)
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("response Body:", string(body))
+}
+
+//POST: Creates an account for the customer with the id provided (optional param not implemented yet)
+func CreateAccount(customerId string, accountType string, nickname string, rewards int, balance int){
+
+    url := baseUrl + "/customers/" + customerId + "/accounts?key=" + apiKey
+
     fmt.Println("URL:>", url)
 
     rewardsString  := strconv.Itoa(rewards)
