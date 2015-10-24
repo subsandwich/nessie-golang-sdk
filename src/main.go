@@ -2,7 +2,8 @@ package main
 
 import(
 	//comment out if not used
-    "./account"
+    //"./account"
+	"./atm"
     //"./branch"
 )
 
@@ -17,6 +18,10 @@ func main() {
     //account.CreateAccount("56241a12de4bf40b17111f9d", "Checking", "Account to Delete", 44444, 44444)
     //account.UpdateAccount("562b06890afebb140066cd57", "Iron Man's Account")
     //account.DeleteAccount("562b073f0afebb140066cd58")
+
+    //=======================ATM=========================
+    //atm.GetAllBranches(38.9283, -77.1753, 1)
+    //atm.GetATMInfo("56241a12de4bf40b17111c65")
 
     //======================Branch======================= (DONE)
     //branch.GetAllBranches()
