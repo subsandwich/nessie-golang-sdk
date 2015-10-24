@@ -3,8 +3,7 @@ Provides Wrapper Functions for Nessie API
 
 
 # Progress:
-------
-* Account: 4/7 - In Progress
+* Account: 6/6 - In Progress (Need to Implement Optional Param)
 * ATM: 0/2 - Not Started
 * Bill: 0/6 - Not Started
 * Branch: 2/2 - Done
