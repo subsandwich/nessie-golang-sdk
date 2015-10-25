@@ -66,8 +66,9 @@ func GetAccountsOfCustomer(customerId string){
     fmt.Println("Response Body:", string(body))
 }
 
-//POST: Creates an account for the customer with the id provided (optional param not implemented yet)
-func CreateAccount(customerId string, accountType string, nickname string, rewards int, balance int){
+//POST: Creates an account for the customer with the id provided
+//Optional POST Param account_number, use empty sting "" if omitted
+func CreateAccount(customerId string, accountType string, nickname string, rewards int, balance int, account_number string){
 
     url := baseUrl + "/customers/" + customerId + "/accounts?key=" + apiKey
 
@@ -76,7 +77,14 @@ func CreateAccount(customerId string, accountType string, nickname string, rewar
     rewardsString  := strconv.Itoa(rewards)
     balanceString := strconv.Itoa(balance)
     
-    var payloadStr = `{"type":"` + accountType + `","nickname":"` + nickname + `","rewards":` + rewardsString + `, "balance":` + balanceString + `}`
+    var payloadStr = ""
+
+    if len(account_number) > 0 {
+        payloadStr = `{"type":"` + accountType + `","nickname":"` + nickname + `","rewards":` + rewardsString + `, "balance":` + balanceString + `, "account_number":"` + account_number + `"}`
+    } else{
+        payloadStr = `{"type":"` + accountType + `","nickname":"` + nickname + `","rewards":` + rewardsString + `, "balance":` + balanceString + `}`
+    }
+    
     
     fmt.Println(string(payloadStr))
     var jsonStr = []byte(payloadStr)
@@ -96,11 +104,19 @@ func CreateAccount(customerId string, accountType string, nickname string, rewar
     fmt.Println("Response Body:", string(body))
 }
 
-//PUT: Updates the specific account (Optional param not implemented yet)
-func UpdateAccount(accountId string, nickname string){
+//PUT: Updates the specific account
+//Optional PUT Param account_number, use empty sting "" if omitted
+func UpdateAccount(accountId string, nickname string, account_number string){
 
     url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
-    var payloadStr = `{"nickname":"` + nickname + `"}`
+
+    var payloadStr = ""
+
+    if len(account_number) > 0 {
+        payloadStr = `{"nickname":"` + nickname + `", "account_number":"` + account_number + `"}`
+    } else {
+        payloadStr = `{"nickname":"` + nickname + `"}`
+    }
 
     var jsonStr = []byte(payloadStr)
     req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))

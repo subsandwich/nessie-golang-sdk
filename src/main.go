@@ -2,8 +2,8 @@ package main
 
 import(
 	//comment out if not used
-    //"./account"
-	"./atm"
+    "./account"
+	//"./atm"
     //"./branch"
 )
 
@@ -15,8 +15,10 @@ func main() {
     //account.GetAllAccounts()
     //account.GetAccountWithId("56241a13de4bf40b1711287b")
 	//account.GetAccountsOfCustomer("56241a12de4bf40b17111f9d")
-    //account.CreateAccount("56241a12de4bf40b17111f9d", "Checking", "Account to Delete", 44444, 44444)
-    //account.UpdateAccount("562b06890afebb140066cd57", "Iron Man's Account")
+    //account.CreateAccount("56241a12de4bf40b17111f9d", "Checking", "Account to Delete", 44444, 44444, "")
+    //account.CreateAccount("56241a12de4bf40b17111f9d", "Checking", "Account to Delete", 7777, 77777, "8888444455551111")
+    //account.UpdateAccount("562cf1190afebb140066cd81", "Iron Man's Account", "")
+    //account.UpdateAccount("562cf1190afebb140066cd81", "Mario's Account", "1234567812345678")
     //account.DeleteAccount("562b073f0afebb140066cd58")
 
     //=======================ATM=========================
