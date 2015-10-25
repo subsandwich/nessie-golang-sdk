@@ -2,9 +2,9 @@ package main
 
 import(
 	//comment out if not used
-    "./account"
-	//"./atm"
-    //"./branch"
+    "./lib/account"
+	//"./lib/atm"
+    //"./lib/branch"
 )
 
 func main() {
