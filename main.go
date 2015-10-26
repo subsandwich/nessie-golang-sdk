@@ -5,7 +5,7 @@ import(
     //"./lib/account"
 	//"./lib/atm"
     //"./lib/branch"
-    "./lib/merchant"
+    //"./lib/merchant"
 )
 
 func main() {
@@ -30,11 +30,15 @@ func main() {
     //branch.GetAllBranches()
     //branch.GetBranchWithId("56241a12de4bf40b17111eb2")
 
-    //=====================Merchant======================
+    //=====================Merchant====================== (DONE)
     //merchant.GetAllMerchants(38.9283, -77.1753, 1)
     //merchant.CreateMerchant("Dunkin Donuts", "Food", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
     //merchant.CreateMerchant("Dunkin Donuts3", "", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
-    //merchant.CreateMerchant("Dunkin Donuts4", "", "", "", "", "", "", 38, -77)
+    //merchant.CreateMerchant("Dunkin Donuts", "", "", "", "", "", "", 38.223, -77.111)
     //merchant.CreateMerchant("Dunkin Donuts5", "Food", "", "", "", "", "", -999, -999)
     //merchant.GetMerchantInfo("562d1cf40afebb140066cd8a")
+    //merchant.UpdateMerchant("562db1380afebb140066cda1", "Starbucks","","","","","","", 67.333,-1.43)
+    //merchant.UpdateMerchant("562db1380afebb140066cda1", "Starbucks","","","","","","", -999,-999)
+    //merchant.UpdateMerchant("562db1380afebb140066cda1", "Plan 9 Records", "", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
+    //merchant.UpdateMerchant("562db1380afebb140066cda1", "Wootton High School", "Education", "", "", "", "", "", -999, -999)
 }
