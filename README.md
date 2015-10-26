@@ -9,7 +9,7 @@ Provides Wrapper Functions for Nessie API
 * Branch: 2/2 - Done
 * Customer: 0/5 - Not Started
 * Deposit: 0/5 - Not Started
-* Merchant: 0/4 - Not Started
+* Merchant: 3/4 - In Progress
 * Purchase: 0/5 - Not Started
 * Transfer: 0/5 - Not Started
 * Withdrawl: 0/5 - Not Started

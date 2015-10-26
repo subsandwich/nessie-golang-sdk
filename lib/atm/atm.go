@@ -19,10 +19,6 @@ func GetAllBranches(lat float64, lng float64, rad int){
     var radString = strconv.Itoa(rad)
 
 	var url = baseUrl + "?lat=" + latString + "&lng=" + lngString + "&rad=" + radString + "&key=" + apiKey
-
-    fmt.Println("http://api.reimaginebanking.com/atms?lat=38.9283&lng=-77.1753&rad=1&key=00515c501bdde5a46e9e56394c140932")
-    fmt.Println(url)
-
 	req, err := http.NewRequest("GET", url, nil)
 
     client := &http.Client{}

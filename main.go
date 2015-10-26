@@ -2,16 +2,17 @@ package main
 
 import(
 	//comment out if not used
-    "./lib/account"
+    //"./lib/account"
 	//"./lib/atm"
     //"./lib/branch"
+    "./lib/merchant"
 )
 
 func main() {
 
     //Demo Code for Requests (uncomment to run)
 
-    //======================Account=======================
+    //======================Account======================= (DONE)
     //account.GetAllAccounts()
     //account.GetAccountWithId("56241a13de4bf40b1711287b")
 	//account.GetAccountsOfCustomer("56241a12de4bf40b17111f9d")
@@ -28,4 +29,12 @@ func main() {
     //======================Branch======================= (DONE)
     //branch.GetAllBranches()
     //branch.GetBranchWithId("56241a12de4bf40b17111eb2")
+
+    //=====================Merchant======================
+    //merchant.GetAllMerchants(38.9283, -77.1753, 1)
+    //merchant.CreateMerchant("Dunkin Donuts", "Food", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
+    //merchant.CreateMerchant("Dunkin Donuts3", "", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
+    //merchant.CreateMerchant("Dunkin Donuts4", "", "", "", "", "", "", 38, -77)
+    //merchant.CreateMerchant("Dunkin Donuts5", "Food", "", "", "", "", "", -999, -999)
+    //merchant.GetMerchantInfo("562d1cf40afebb140066cd8a")
 }
