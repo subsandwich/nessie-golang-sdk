@@ -28,13 +28,15 @@ func main() {
     //atm.GetAllBranches(38.9283, -77.1753, 1)
     //atm.GetATMInfo("56241a12de4bf40b17111c65")
 
-    //=======================BILL========================
+    //=======================BILL======================== (DONE)
     //bill.GetBillsOfAccount("56241a13de4bf40b1711287b")
     //bill.GetBillWithId("56241a14de4bf40b1711318c")
     //bill.GetBillsOfCustomer("56241a12de4bf40b17111f9c")
     //bill.CreateBill("56241a13de4bf40b1711287a", "completed", "Comcast", "Cable", "2001-05-22", 22, 6.55)
     //bill.CreateBill("56241a13de4bf40b1711287a", "completed", "Nothing", "", "2001-05-22", -999, 116.55)
     //bill.CreateBill("56241a13de4bf40b1711287a", "completed", "Nothing", "Something", "", -999, 116.55)
+    //bill.UpdateBill("562ef8440afebb140066cda9", "completed", "Verizon", "Cable", "2015-10-26", 1, 222.55)
+    //bill.DeleteBill("562ef9db0afebb140066cdab")
 
     //======================Branch======================= (DONE)
     //branch.GetAllBranches()

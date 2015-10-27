@@ -5,7 +5,7 @@ Provides Wrapper Functions for Nessie API
 # Progress:
 * Account: 6/6 - Done
 * ATM: 2/2 - In Progress (Need to Implement Paginated Response)
-* Bill: 3/6 - In Progress
+* Bill: 6/6 - Done
 * Branch: 2/2 - Done
 * Customer: 5/5 - Done
 * Deposit: 0/5 - Not Started
