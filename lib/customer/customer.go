@@ -76,8 +76,6 @@ func CreateCustomer(firstName string, lastName string, street_number string, str
 
     var payloadStr = `{"first_name":"` + firstName + `", "last_name": "` + lastName + `", "address":` + address + `}`
 
-    //var correctPayload = `{"name":"Dunkin Donuts", "category":"Food","address":{"street_number": "11006", "street_name":"Capital One Dr.", "city": "McLean", "state":"VA", "zip":"20931"}, "geocode": {"lat": 38.0000, "lng": -77.0000}}`
-
     fmt.Println("payload:", string(payloadStr))
 
     var jsonStr = []byte(payloadStr)
@@ -107,8 +105,6 @@ func UpdateCustomer(customerId string, street_number string, street_name string,
     var address = `{"street_number": "` + street_number + `", "street_name":"` + street_name + `", "city": "` + city + `", "state":"` + state + `", "zip":"` + zip + `"}`
 
     var payloadStr = `{"address":` + address + `}`
-
-    //var correctPayload = `{"name":"Dunkin Donuts", "category":"Food","address":{"street_number": "11006", "street_name":"Capital One Dr.", "city": "McLean", "state":"VA", "zip":"20931"}, "geocode": {"lat": 38.0000, "lng": -77.0000}}`
 
     fmt.Println("payload:", string(payloadStr))
 

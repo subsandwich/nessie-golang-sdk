@@ -86,8 +86,6 @@ func CreateMerchant(merchantName string, category string, street_number string, 
     
     payloadStr = payloadStr + `}`
 
-    //var correctPayload = `{"name":"Dunkin Donuts", "category":"Food","address":{"street_number": "11006", "street_name":"Capital One Dr.", "city": "McLean", "state":"VA", "zip":"20931"}, "geocode": {"lat": 38.0000, "lng": -77.0000}}`
-
     fmt.Println("geocode payload:", string(geocode))
     fmt.Println("address payload:", string(address))
     fmt.Println("payload:", string(payloadStr))
@@ -143,9 +141,6 @@ func UpdateMerchant(merchantId string, merchantName string, category string, str
     
     payloadStr = payloadStr + `}`
     
-
-    //var correctPayload = `{"name":"Dunkin Donuts", "category":"Food","address":{"street_number": "11006", "street_name":"Capital One Dr.", "city": "McLean", "state":"VA", "zip":"20931"}, "geocode": {"lat": 38.0000, "lng": -77.0000}}`
-
     fmt.Println("geocode payload:", string(geocode))
     fmt.Println("address payload:", string(address))
     fmt.Println("payload:", string(payloadStr))
