@@ -4,8 +4,9 @@ import(
 	//comment out if not used
     //"./lib/account"
 	//"./lib/atm"
+    "./lib/bill"
     //"./lib/branch"
-    "./lib/customer"
+    //"./lib/customer"
     //"./lib/merchant"
 )
 
@@ -26,6 +27,11 @@ func main() {
     //=======================ATM=========================
     //atm.GetAllBranches(38.9283, -77.1753, 1)
     //atm.GetATMInfo("56241a12de4bf40b17111c65")
+
+    //=======================BILL========================
+    //bill.GetBillsOfAccount("56241a13de4bf40b1711287b")
+    //bill.GetBillWithId("56241a14de4bf40b1711318c")
+    bill.GetBillsOfCustomer("56241a12de4bf40b17111f9c")
 
     //======================Branch======================= (DONE)
     //branch.GetAllBranches()
