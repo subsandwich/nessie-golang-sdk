@@ -5,6 +5,7 @@ import(
     //"./lib/account"
 	//"./lib/atm"
     //"./lib/branch"
+    "./lib/customer"
     //"./lib/merchant"
 )
 
@@ -29,6 +30,13 @@ func main() {
     //======================Branch======================= (DONE)
     //branch.GetAllBranches()
     //branch.GetBranchWithId("56241a12de4bf40b17111eb2")
+
+    //=====================Customer====================== (DONE)
+    //customer.GetCustomerOfAccount("56241a13de4bf40b1711287a")
+    //customer.GetAllCustomers()
+    //customer.GetCustomerWithId("56241a12de4bf40b17111f9d")
+    //customer.CreateCustomer("Robert", "Frost", "1111", "Infinity Loop", "Richmond", "VA", "22211")
+    //customer.UpdateCustomer("56241a12de4bf40b17111f9d", "1112", "Infinity Loop", "Richmond", "VA", "22211")
 
     //=====================Merchant====================== (DONE)
     //merchant.GetAllMerchants(38.9283, -77.1753, 1)
