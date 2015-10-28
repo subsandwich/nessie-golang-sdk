@@ -4,10 +4,12 @@ import(
 	//comment out if not used
     //"./lib/account"
 	//"./lib/atm"
-    "./lib/bill"
+    //"./lib/bill"
     //"./lib/branch"
     //"./lib/customer"
+    //"./lib/deposit"
     //"./lib/merchant"
+    "./lib/purchase"
 )
 
 func main() {
@@ -49,6 +51,15 @@ func main() {
     //customer.CreateCustomer("Robert", "Frost", "1111", "Infinity Loop", "Richmond", "VA", "22211")
     //customer.UpdateCustomer("56241a12de4bf40b17111f9d", "1112", "Infinity Loop", "Richmond", "VA", "22211")
 
+    //=====================Deposit======================= 
+    //deposit.GetDepositOfAccount("56241a13de4bf40b1711287c")
+    //deposit.GetDepositById("562ff3980afebb140066cdae")
+    //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "10/26/2015", "completed", 65.23, "paycheck")
+    //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "10/26/2015", "completed", 65.24, "paycheck")
+    //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "", "completed", 65.25, "paycheck")
+    //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "10/26/2015", "", 65.26, "paycheck")
+    //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "", "", 65.27, "")
+
     //=====================Merchant====================== (DONE)
     //merchant.GetAllMerchants(38.9283, -77.1753, 1)
     //merchant.CreateMerchant("Dunkin Donuts", "Food", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
@@ -60,4 +71,14 @@ func main() {
     //merchant.UpdateMerchant("562db1380afebb140066cda1", "Starbucks","","","","","","", -999,-999)
     //merchant.UpdateMerchant("562db1380afebb140066cda1", "Plan 9 Records", "", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
     //merchant.UpdateMerchant("562db1380afebb140066cda1", "Wootton High School", "Education", "", "", "", "", "", -999, -999)
+
+    //=====================Purchase======================= 
+    //purchase.GetPurchasesByAccount("56241a13de4bf40b1711287b")
+    //purchase.GetPurchaseById("56304a7b0afebb140066cdb9")
+    //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "10/16/2015", 112.31, "pending", "Lot of Coffee")
+    //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "", 112.31, "pending", "Lot of Coffee")
+    //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "10/16/2015", 112.31, "", "Lot of Coffee")
+    //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "10/16/2015", 112.31, "pending", "")
 }
+
+

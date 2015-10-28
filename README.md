@@ -8,9 +8,9 @@ Provides Wrapper Functions for Nessie API
 * Bill: 6/6 - Done
 * Branch: 2/2 - Done
 * Customer: 5/5 - Done
-* Deposit: 0/5 - Not Started
+* Deposit: 3/5 - In Progress (POST/PUT not working on Swagger)
 * Merchant: 4/4 - Done
-* Purchase: 0/5 - Not Started
+* Purchase: 3/5 - In Progress
 * Transfer: 0/5 - Not Started
 * Withdrawl: 0/5 - Not Started
 
