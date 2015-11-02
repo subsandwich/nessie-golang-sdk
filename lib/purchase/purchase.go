@@ -97,6 +97,7 @@ func CreatePurchase(accountId string, merchant_id string, medium string, purchas
 
 //PUT: Updates the specific purchase
 //For optional Params, use empty string "" and -999 for optional float
+//NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
 func UpdatePurchase(purchaseId string, payerId string, medium string, amount float64, description string){
 
     url := baseUrl + "purchases/" + purchaseId + "?key=" + apiKey

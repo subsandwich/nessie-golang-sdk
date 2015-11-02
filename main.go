@@ -7,9 +7,9 @@ import(
     //"./lib/bill"
     //"./lib/branch"
     //"./lib/customer"
-    //"./lib/deposit"
+    "./lib/deposit"
     //"./lib/merchant"
-    "./lib/purchase"
+    //"./lib/purchase"
 )
 
 func main() {
@@ -59,6 +59,11 @@ func main() {
     //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "", "completed", 65.25, "paycheck")
     //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "10/26/2015", "", 65.26, "paycheck")
     //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "", "", 65.27, "")
+    //deposit.UpdateDeposit("5636ec210afebb140066ce52", "rewards", 10000, "deposit doh")
+    //deposit.UpdateDeposit("5636ec210afebb140066ce52", "rewards", -999, "deposit doh")
+    //deposit.UpdateDeposit("5636ec210afebb140066ce52", "", 10000, "deposit doh")
+    //deposit.UpdateDeposit("5636ec210afebb140066ce52", "rewards", 10000, "")
+    //deposit.DeleteDeposit("5636ecd10afebb140066ce53")
 
     //=====================Merchant====================== (DONE)
     //merchant.GetAllMerchants(38.9283, -77.1753, 1)
