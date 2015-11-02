@@ -79,6 +79,10 @@ func main() {
     //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "", 112.31, "pending", "Lot of Coffee")
     //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "10/16/2015", 112.31, "", "Lot of Coffee")
     //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "10/16/2015", 112.31, "pending", "")
+    //purchase.UpdatePurchase("5636e3b80afebb140066ce4b", "56241a13de4bf40b1711287b", "balance", 100, "ajskdfjk")
+    //purchase.UpdatePurchase("5636e3b80afebb140066ce4b", "56241a13de4bf40b1711287b", "balance", 100, "")
+    //purchase.UpdatePurchase("5636e3b80afebb140066ce4b", "56241a13de4bf40b1711287b", "", 100, "")
+    //purchase.DeletePurchase("5636e49e0afebb140066ce4d")
 }
 
 
