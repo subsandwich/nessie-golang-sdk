@@ -8,7 +8,7 @@ import(
     "../shared"
 )
 
-var baseUrl = "http://api.reimaginebanking.com/customers"
+const baseUrl = "http://api.reimaginebanking.com/customers"
 var apiKey = shared.ApiKey
 
 //GET: Returns the customer that the account belongs to

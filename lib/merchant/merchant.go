@@ -2,6 +2,7 @@ package merchant
 
 import(
     "fmt"
+    "math"
     "net/http"
     "io/ioutil"
     "strconv"
@@ -9,17 +10,18 @@ import(
     "../shared"
 )
 
-var baseUrl = "http://api.reimaginebanking.com/merchants"
+const baseUrl = "http://api.reimaginebanking.com/merchants"
 var apiKey = shared.ApiKey
+const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the merchants that have been assigned to you
 func GetAllMerchants(lat float64, lng float64, rad int){
 	
-    var latString = strconv.FormatFloat(lat,'f',4,64)
-    var lngString = strconv.FormatFloat(lng,'f',4,64)
-    var radString = strconv.Itoa(rad)
+    latString := strconv.FormatFloat(lat,'f',4,64)
+    lngString := strconv.FormatFloat(lng,'f',4,64)
+    radString := strconv.Itoa(rad)
 
-	var url = baseUrl + "?lat=" + latString + "&lng=" + lngString + "&rad=" + radString + "&key=" + apiKey
+	url := baseUrl + "?lat=" + latString + "&lng=" + lngString + "&rad=" + radString + "&key=" + apiKey
 
 	req, err := http.NewRequest("GET", url, nil)
 
@@ -53,7 +55,7 @@ func GetMerchantInfo(merchantId string){
 }
 
 //POST: Creates a merchant
-//For optional Params, use empty string "" and -999 for empty lat/lng
+//For optional Params, use empty string "" and blankNumber for empty lat/lng
 func CreateMerchant(merchantName string, category string, street_number string, street_name string, city string, state string, zip string, lat float64, lng float64){
 
     url := baseUrl + "?key=" + apiKey
@@ -66,7 +68,7 @@ func CreateMerchant(merchantName string, category string, street_number string, 
     var geocode = `{"lat": ` + latString + `, "lng": ` + lngString + `}`
     var address = `{"street_number": "` + street_number + `", "street_name":"` + street_name + `", "city": "` + city + `", "state":"` + state + `", "zip":"` + zip + `"}`
 
-    if lat == -999 || lng == -999 {
+    if lat == blankNumber || lng == blankNumber {
     	geocode = ""
     }
 
@@ -108,7 +110,7 @@ func CreateMerchant(merchantName string, category string, street_number string, 
 }
 
 //PUT: Updates a specific merchant
-//For optional Params, use empty string "" and -999 for empty lat/lng
+//For optional Params, use empty string "" and blankNumber for empty lat/lng
 func UpdateMerchant(merchantId string, merchantName string, category string, street_number string, street_name string, city string, state string, zip string, lat float64, lng float64){
 
     url := baseUrl + "/" + merchantId + "?key=" + apiKey
@@ -121,7 +123,7 @@ func UpdateMerchant(merchantId string, merchantName string, category string, str
     var geocode = `{"lat": ` + latString + `, "lng": ` + lngString + `}`
     var address = `{"street_number": "` + street_number + `", "street_name":"` + street_name + `", "city": "` + city + `", "state":"` + state + `", "zip":"` + zip + `"}`
 
-    if lat == -999 || lng == -999 {
+    if lat == blankNumber || lng == blankNumber {
     	geocode = ""
     }
 

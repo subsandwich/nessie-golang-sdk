@@ -7,7 +7,7 @@ import(
     "../shared"
 )
 
-var baseUrl = "http://api.reimaginebanking.com/branches/"
+const baseUrl = "http://api.reimaginebanking.com/branches/"
 var apiKey = shared.ApiKey
 
 //GET: Returns all of the Capital One branches.

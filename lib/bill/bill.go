@@ -2,6 +2,7 @@ package bill
 
 import(
     "fmt"
+    "math"
     "net/http"
     "bytes"
     "io/ioutil"
@@ -9,8 +10,9 @@ import(
     "../shared"
 )
 
-var baseUrl = "http://api.reimaginebanking.com/"
+const baseUrl = "http://api.reimaginebanking.com/"
 var apiKey = shared.ApiKey
+const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the bills that are tied to the specific account
 func GetBillsOfAccount(accountId string){
@@ -67,7 +69,7 @@ func GetBillsOfCustomer(customerId string){
 }
 
 //POST: Creates a bill
-//For Optional params, use empty string "" or -999 for recurring_date
+//For Optional params, use empty string "" or blankNumber for recurring_date
 func CreateBill(customerId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64){
 
     var url = baseUrl + "accounts/" + customerId + "/bills?key=" + apiKey

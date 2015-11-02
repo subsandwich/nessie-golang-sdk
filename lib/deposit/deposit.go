@@ -2,6 +2,7 @@ package deposit
 
 import(
     "fmt"
+    "math"
     "net/http"
     "io/ioutil"
     "strconv"
@@ -9,8 +10,9 @@ import(
     "../shared"
 )
 
-var baseUrl = "http://api.reimaginebanking.com/"
+const baseUrl = "http://api.reimaginebanking.com/"
 var apiKey = shared.ApiKey
+const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the deposits that you are involved in
 func GetDepositOfAccount(accountId string){
@@ -95,7 +97,7 @@ func CreateDeposit(accountId string, medium string, transaction_date string, sta
 }
 
 //PUT: Updates the specific deposit
-//For optional Params, use empty string "" and -999 for optional float
+//For optional Params, use empty string "" and "blankNumber" for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include will stay the same
 func UpdateDeposit(depositId string, medium string, amount float64, description string){
 
@@ -111,7 +113,7 @@ func UpdateDeposit(depositId string, medium string, amount float64, description 
         payloadStr = payloadStr + `"medium":"` + medium + `"`
     }
 
-    if amount != -999{
+    if amount != blankNumber{
         
         if len(medium) > 0 {
             payloadStr = payloadStr + `, "amount": ` + amountStr
@@ -121,7 +123,7 @@ func UpdateDeposit(depositId string, medium string, amount float64, description 
     }
     
     if len(description) > 0{
-        if amount!= -999 || len(medium) > 0 {
+        if amount!= blankNumber || len(medium) > 0 {
             payloadStr = payloadStr + `, "description": "` + description + `"`
         } else{
             payloadStr = payloadStr + `, "description": "` + description + `"`

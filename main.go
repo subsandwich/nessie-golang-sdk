@@ -1,20 +1,24 @@
 package main
 
 import(
+    
+    "math"
 	//comment out if not used
     //"./lib/account"
 	//"./lib/atm"
     //"./lib/bill"
     //"./lib/branch"
     //"./lib/customer"
-    "./lib/deposit"
+    //"./lib/deposit"
     //"./lib/merchant"
     //"./lib/purchase"
+    //"./lib/transfer"
 )
 
 func main() {
 
     //Demo Code for Requests (uncomment to run)
+    const blankNumber = math.SmallestNonzeroFloat64
 
     //======================Account======================= (DONE)
     //account.GetAllAccounts()
@@ -51,7 +55,7 @@ func main() {
     //customer.CreateCustomer("Robert", "Frost", "1111", "Infinity Loop", "Richmond", "VA", "22211")
     //customer.UpdateCustomer("56241a12de4bf40b17111f9d", "1112", "Infinity Loop", "Richmond", "VA", "22211")
 
-    //=====================Deposit======================= 
+    //=====================Deposit======================= (DONE)
     //deposit.GetDepositOfAccount("56241a13de4bf40b1711287c")
     //deposit.GetDepositById("562ff3980afebb140066cdae")
     //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "10/26/2015", "completed", 65.23, "paycheck")
@@ -77,7 +81,7 @@ func main() {
     //merchant.UpdateMerchant("562db1380afebb140066cda1", "Plan 9 Records", "", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
     //merchant.UpdateMerchant("562db1380afebb140066cda1", "Wootton High School", "Education", "", "", "", "", "", -999, -999)
 
-    //=====================Purchase======================= 
+    //=====================Purchase======================= (DONE)
     //purchase.GetPurchasesByAccount("56241a13de4bf40b1711287b")
     //purchase.GetPurchaseById("56304a7b0afebb140066cdb9")
     //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "10/16/2015", 112.31, "pending", "Lot of Coffee")
@@ -88,6 +92,17 @@ func main() {
     //purchase.UpdatePurchase("5636e3b80afebb140066ce4b", "56241a13de4bf40b1711287b", "balance", 100, "")
     //purchase.UpdatePurchase("5636e3b80afebb140066ce4b", "56241a13de4bf40b1711287b", "", 100, "")
     //purchase.DeletePurchase("5636e49e0afebb140066ce4d")
+
+    //=====================Transfer======================== (DONE)
+    //transfer.GetTransfersByAccount("56241a13de4bf40b1711287b")
+    //transfer.GetTransferById("5636f1000afebb140066ce54")
+    //transfer.CreateTransfer("56241a13de4bf40b1711287b", "balance", "56241a13de4bf40b1711287b", 4238.71, "10/22/2015", "pending", "Salary")
+    //transfer.CreateTransfer("56241a13de4bf40b1711287b", "balance", "56241a13de4bf40b1711287b", 138.71, "", "pending", "Free Money")
+    //transfer.CreateTransfer("56241a13de4bf40b1711287b", "balance", "56241a13de4bf40b1711287b", .71, "", "", "")
+    //transfer.UpdateTransfer("5636f1000afebb140066ce54", "balance", "56241a13de4bf40b1711287c", 99.12, "diskripshun")
+    //transfer.UpdateTransfer("5636f1000afebb140066ce54", "", "", 99.12, "diskripshun")
+    //transfer.UpdateTransfer("5636f1000afebb140066ce54", "", "56241a13de4bf40b1711287c", math.SmallestNonzeroFloat64, "")
+    //transfer.DeleteTransfer("5636f87e0afebb140066ce5a")
 }
 
 

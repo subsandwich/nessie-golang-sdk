@@ -8,7 +8,7 @@ import(
     "../shared"
 )
 
-var baseUrl = "http://api.reimaginebanking.com/atms"
+const baseUrl = "http://api.reimaginebanking.com/atms"
 var apiKey = shared.ApiKey
 
 //GET: Returns all of the Capital One ATMs in the speified search area (Pages not implemented yet)

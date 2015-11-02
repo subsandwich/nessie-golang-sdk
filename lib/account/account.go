@@ -9,7 +9,7 @@ import(
     "../shared"
 )
 
-var baseUrl = "http://api.reimaginebanking.com/"
+const baseUrl = "http://api.reimaginebanking.com/"
 var apiKey = shared.ApiKey
 
 //GET: Returns the accounts that have been assigned to you
