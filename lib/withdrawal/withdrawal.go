@@ -5,6 +5,7 @@ import(
     "net/http"
     "io/ioutil"
     "bytes"
+    "math"
     "strconv"
     "../shared"
 )
@@ -92,4 +93,76 @@ func CreateWithdrawal(accountId string, medium string, transaction_date string, 
     fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
     fmt.Println("Response Body:", string(body))
+}
+
+//PUT: Updates the specific withdrawal
+//For optional Params, use empty string "" and blankNumber for optional float
+//NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
+func UpdateWithdrawal(withdrawalId string, medium string, amount float64, description string){
+
+    url := baseUrl + "withdrawals/" + withdrawalId + "?key=" + apiKey
+
+    fmt.Println("URL:>", url)
+
+    amountStr := strconv.FormatFloat(amount,'f',4,64)
+
+    payloadStr := `{ ` 
+
+    if len(medium) > 0 {
+
+        payloadStr = payloadStr + `"medium": "` + medium + `"`  
+    } 
+
+    if amount != math.SmallestNonzeroFloat64{
+        
+        if len(medium) > 0 {
+            payloadStr = payloadStr + `, "amount": ` + amountStr
+        } else {
+            payloadStr = payloadStr + ` "amount": ` + amountStr
+        }
+    }
+    
+    if len(description) > 0{
+        if(amount!= -999 || len(medium) > 0){
+            payloadStr = payloadStr + `, "description": "` + description + `"`
+        } else{
+            payloadStr = payloadStr + `, "description": "` + description + `"`
+        }
+    } 
+    
+    payloadStr = payloadStr + `}`
+    
+    fmt.Println(string(payloadStr))
+    var jsonStr = []byte(payloadStr)
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+    req.Header.Set("Content-Type", "application/json")
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+
+    fmt.Println("Response Status:", resp.Status)
+    fmt.Println("Response Headers:", resp.Header)
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("Response Body:", string(body))
+}
+
+//DELETE: Deletes the specific withdrawal
+func DeleteWithdrawal(withdrawalId string){
+
+    url := baseUrl + "withdrawals/" + withdrawalId + "?key=" + apiKey
+
+    req, err := http.NewRequest("DELETE", url, nil)
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+
+    fmt.Println("Response Body: Account was succesfully deleted")
 }

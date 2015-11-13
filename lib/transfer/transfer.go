@@ -95,7 +95,7 @@ func CreateTransfer(accountId string, medium string, payeeId string, amount floa
     fmt.Println("Response Body:", string(body))
 }
 
-//PUT: Updates the specific purchase
+//PUT: Updates the specific transfer
 //For optional Params, use empty string "" and blankNumber for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
 func UpdateTransfer(transferId string, medium string, payeeId string, amount float64, description string){

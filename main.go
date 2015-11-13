@@ -13,7 +13,7 @@ import(
     //"./lib/merchant"
     //"./lib/purchase"
     //"./lib/transfer"
-    "./lib/withdrawal"
+    //"./lib/withdrawal"
 )
 
 func main() {
@@ -106,11 +106,13 @@ func main() {
     //transfer.DeleteTransfer("5636f87e0afebb140066ce5a")
 
     //=====================Withdrawl======================== 
-    //withdrawal.GetWithdrawalsByAccount("56241a13de4bf40b1711287b");
-    //withdrawal.GetWithdrawalById("563e5a6ec5be5d0f003c179b");
-    //withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "","",500,"");
-    //withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "11/30/2015","",500,"string");
-    withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "","pending",500,"");
+    //withdrawal.GetWithdrawalsByAccount("56241a13de4bf40b1711287b")
+    //withdrawal.GetWithdrawalById("563e5a6ec5be5d0f003c179b")
+    //withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "","",500,"")
+    //withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "11/30/2015","",500,"string")
+    //withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "","pending",500,"")
+    //withdrawal.UpdateWithdrawal("56456946d954610d00de1a2b", "balance", math.SmallestNonzeroFloat64, "")
+    //withdrawal.DeleteWithdrawal("56456e50d954610d00de1a2d")
 }
 
 
