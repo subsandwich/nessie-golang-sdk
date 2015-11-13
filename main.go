@@ -105,7 +105,7 @@ func main() {
     //transfer.UpdateTransfer("5636f1000afebb140066ce54", "", "56241a13de4bf40b1711287c", math.SmallestNonzeroFloat64, "")
     //transfer.DeleteTransfer("5636f87e0afebb140066ce5a")
 
-    //=====================Withdrawl======================== 
+    //=====================Withdrawl======================== (DONE)
     //withdrawal.GetWithdrawalsByAccount("56241a13de4bf40b1711287b")
     //withdrawal.GetWithdrawalById("563e5a6ec5be5d0f003c179b")
     //withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "","",500,"")

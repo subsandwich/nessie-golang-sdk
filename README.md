@@ -12,7 +12,7 @@ Provides Wrapper Functions for Nessie API
 * Merchant: 4/4 - Done
 * Purchase: 5/5 - Done
 * Transfer: 5/5 - Done
-* Withdrawl: 0/5 - Not Started
+* Withdrawl: 5/5 - Done
 
 Test ApiKey: 00515c501bdde5a46e9e56394c140932
 
