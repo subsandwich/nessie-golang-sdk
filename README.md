@@ -18,8 +18,8 @@ Provides Wrapper Functions for Nessie API
 	````
 
 3. Use the code as shown in main.go
-	````
-	customer.getAllCustomers()
+	````go
+	customer.GetAllCustomers()
 	````
 	Will return something like this:
 	````json
