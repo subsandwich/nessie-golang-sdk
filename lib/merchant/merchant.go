@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the merchants that have been assigned to you
-func GetAllMerchants(lat float64, lng float64, rad int){
+func GetAllMerchants(lat float64, lng float64, rad int) string {
 	
     latString := strconv.FormatFloat(lat,'f',4,64)
     lngString := strconv.FormatFloat(lng,'f',4,64)
@@ -33,11 +33,14 @@ func GetAllMerchants(lat float64, lng float64, rad int){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //GET: Returns the merchant with the specific id
-func GetMerchantInfo(merchantId string){
+func GetMerchantInfo(merchantId string) string {
 
     var url = baseUrl + "/" + merchantId + "?key=" + apiKey
 
@@ -51,12 +54,16 @@ func GetMerchantInfo(merchantId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //POST: Creates a merchant
 //For optional Params, use empty string "" and blankNumber for empty lat/lng
-func CreateMerchant(merchantName string, category string, street_number string, street_name string, city string, state string, zip string, lat float64, lng float64){
+func CreateMerchant(merchantName string, category string, street_number string, street_name string, city string, state string, zip string,
+         lat float64, lng float64) string {
 
     url := baseUrl + "?key=" + apiKey
 
@@ -103,15 +110,17 @@ func CreateMerchant(merchantName string, category string, street_number string, 
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //PUT: Updates a specific merchant
 //For optional Params, use empty string "" and blankNumber for empty lat/lng
-func UpdateMerchant(merchantId string, merchantName string, category string, street_number string, street_name string, city string, state string, zip string, lat float64, lng float64){
+func UpdateMerchant(merchantId string, merchantName string, category string, street_number string, street_name string, city string, state string, zip string,
+         lat float64, lng float64) string {
 
     url := baseUrl + "/" + merchantId + "?key=" + apiKey
 
@@ -158,8 +167,9 @@ func UpdateMerchant(merchantId string, merchantName string, category string, str
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }

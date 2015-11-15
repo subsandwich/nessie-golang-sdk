@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the deposits that you are involved in
-func GetDepositOfAccount(accountId string){
+func GetDepositOfAccount(accountId string) string {
 
     var url = baseUrl + "accounts/" + accountId + "/deposits?key=" + apiKey
 
@@ -29,11 +29,14 @@ func GetDepositOfAccount(accountId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //GET: Returns the deposit with the specific id
-func GetDepositById(depositId string){
+func GetDepositById(depositId string) string {
 
     var url = baseUrl + "deposits/" + depositId + "?key=" + apiKey
 
@@ -47,12 +50,15 @@ func GetDepositById(depositId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //POST: Creates an account for the customer with the id provided
 //Optional POST Param transaction_date, status, description, use empty sting "" if omitted
-func CreateDeposit(accountId string, medium string, transaction_date string, status string, amount float64, description string){
+func CreateDeposit(accountId string, medium string, transaction_date string, status string, amount float64, description string) string {
 
     url := baseUrl + "accounts/" + accountId + "/deposits?key=" + apiKey
 
@@ -90,16 +96,17 @@ func CreateDeposit(accountId string, medium string, transaction_date string, sta
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //PUT: Updates the specific deposit
 //For optional Params, use empty string "" and "blankNumber" for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include will stay the same
-func UpdateDeposit(depositId string, medium string, amount float64, description string){
+func UpdateDeposit(depositId string, medium string, amount float64, description string) string {
 
     url := baseUrl + "deposits/" + depositId + "?key=" + apiKey
 
@@ -144,14 +151,15 @@ func UpdateDeposit(depositId string, medium string, amount float64, description 
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //DELETE: Deletes the specific deposit
-func DeleteDeposit(depositId string){
+func DeleteDeposit(depositId string) string {
 
     url := baseUrl + "purchases/" + depositId+ "?key=" + apiKey
 
@@ -164,5 +172,9 @@ func DeleteDeposit(depositId string){
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Body: Account was succesfully deleted")
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }

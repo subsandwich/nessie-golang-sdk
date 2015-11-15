@@ -13,7 +13,7 @@ const baseUrl = "http://api.reimaginebanking.com/"
 var apiKey = shared.ApiKey
 
 //GET: Returns the accounts that have been assigned to you
-func GetAllAccounts(){
+func GetAllAccounts() string {
 
     url := "http://api.reimaginebanking.com/accounts?key=" + apiKey
 
@@ -27,11 +27,13 @@ func GetAllAccounts(){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //GET: Returns the account with the specific id
-func GetAccountWithId(accountId string){
+func GetAccountWithId(accountId string) string {
 
     url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
 
@@ -45,11 +47,13 @@ func GetAccountWithId(accountId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //GET: Returns the accounts associated with the specific customer
-func GetAccountsOfCustomer(customerId string){
+func GetAccountsOfCustomer(customerId string) string {
 
     url := baseUrl + "/customers/" + customerId+ "/accounts?key=" + apiKey
 
@@ -63,16 +67,18 @@ func GetAccountsOfCustomer(customerId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //POST: Creates an account for the customer with the id provided
 //Optional POST Param account_number, use empty sting "" if omitted
-func CreateAccount(customerId string, accountType string, nickname string, rewards int, balance int, account_number string){
+func CreateAccount(customerId string, accountType string, nickname string, rewards int, balance int, account_number string) string {
 
     url := baseUrl + "/customers/" + customerId + "/accounts?key=" + apiKey
 
-    fmt.Println("URL:>", url)
+    //fmt.Println("URL:>", url)
 
     rewardsString  := strconv.Itoa(rewards)
     balanceString := strconv.Itoa(balance)
@@ -98,15 +104,16 @@ func CreateAccount(customerId string, accountType string, nickname string, rewar
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //PUT: Updates the specific account
 //Optional PUT Param account_number, use empty sting "" if omitted
-func UpdateAccount(accountId string, nickname string, account_number string){
+func UpdateAccount(accountId string, nickname string, account_number string) string {
 
     url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
 
@@ -130,11 +137,13 @@ func UpdateAccount(accountId string, nickname string, account_number string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //DELETE: Deletes the specific account
-func DeleteAccount(accountId string){
+func DeleteAccount(accountId string) string {
 
     url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
 
@@ -147,5 +156,9 @@ func DeleteAccount(accountId string){
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Body: Account was succesfully deleted")
+    fmt.Println("Response Status:", resp.Status)
+    body, _ := ioutil.ReadAll(resp.Body)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }

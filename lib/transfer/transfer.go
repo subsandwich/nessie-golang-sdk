@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the transfers that you are involved in
-func GetTransfersByAccount(accountId string){
+func GetTransfersByAccount(accountId string) string {
 	
 	url := baseUrl + "accounts/" + accountId + "/transfers?key=" + apiKey
 
@@ -29,11 +29,14 @@ func GetTransfersByAccount(accountId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //GET: Returns the transfer with the specific id
-func GetTransferById(transferId string){
+func GetTransferById(transferId string) string {
 	
 	url := baseUrl + "transfers/" + transferId + "?key=" + apiKey
 
@@ -47,12 +50,16 @@ func GetTransferById(transferId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //POST: Creates a transfer where the account with the ID specified is the payer
 //Optional POST Param transaction_date, status, description, use empty sting "" if omitted
-func CreateTransfer(accountId string, medium string, payeeId string, amount float64, transaction_date string, status string, description string){
+func CreateTransfer(accountId string, medium string, payeeId string, amount float64, transaction_date string, 
+        status string, description string) string {
 
     url := baseUrl + "accounts/" + accountId + "/transfers?key=" + apiKey
 
@@ -89,16 +96,17 @@ func CreateTransfer(accountId string, medium string, payeeId string, amount floa
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //PUT: Updates the specific transfer
 //For optional Params, use empty string "" and blankNumber for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
-func UpdateTransfer(transferId string, medium string, payeeId string, amount float64, description string){
+func UpdateTransfer(transferId string, medium string, payeeId string, amount float64, description string) string {
 
     url := baseUrl + "transfers/" + transferId + "?key=" + apiKey
 
@@ -152,14 +160,15 @@ func UpdateTransfer(transferId string, medium string, payeeId string, amount flo
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //DELETE: Deletes the specific transfer
-func DeleteTransfer(transferId string){
+func DeleteTransfer(transferId string) string {
 
     url := baseUrl + "transfers/" + transferId + "?key=" + apiKey
 
@@ -172,5 +181,9 @@ func DeleteTransfer(transferId string){
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Body: Account was succesfully deleted")
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }

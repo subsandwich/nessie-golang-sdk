@@ -9,7 +9,7 @@ You can follow the code in main.go as examples
 	````
 	var ApiKey = {YOUR_API_KEY_HERE}
 	````
-	
+
 2. Import the package you need using the path of its location relative to your class
 	````
 	import(
@@ -17,21 +17,3 @@ You can follow the code in main.go as examples
     	"./lib/customer"
 	)
 	````
-
-
-# Progress:
-* Account: 6/6 - Done
-* ATM: 2/2 - In Progress (Need to Implement Paginated Response)
-* Bill: 6/6 - Done
-* Branch: 2/2 - Done
-* Customer: 5/5 - Done
-* Deposit: 5/5 - Done
-* Merchant: 4/4 - Done
-* Purchase: 5/5 - Done
-* Transfer: 5/5 - Done
-* Withdrawl: 5/5 - Done
-
-Test ApiKey: 00515c501bdde5a46e9e56394c140932
-
-
-Set your own API Key in lib/shared/shared.go

@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the purchases that you are involved in
-func GetPurchasesByAccount(accountId string){
+func GetPurchasesByAccount(accountId string) string {
 
 	var url = baseUrl + "accounts/" + accountId + "/purchases?key=" + apiKey
 
@@ -29,11 +29,14 @@ func GetPurchasesByAccount(accountId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //GET: Returns the purchase with the specific id
-func GetPurchaseById(purchaseId string){
+func GetPurchaseById(purchaseId string) string {
 
 	var url = baseUrl + "purchases/" + purchaseId + "?key=" + apiKey
 
@@ -47,12 +50,16 @@ func GetPurchaseById(purchaseId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //POST: Creates a purchase where the account with the ID specified is the payer
 //For optional Params, use empty string ""
-func CreatePurchase(accountId string, merchant_id string, medium string, purchase_date string, amount float64, status string, description string){
+func CreatePurchase(accountId string, merchant_id string, medium string, purchase_date string, amount float64,
+     status string, description string) string {
 
     url := baseUrl + "accounts/" + accountId + "/purchases?key=" + apiKey
 
@@ -91,16 +98,17 @@ func CreatePurchase(accountId string, merchant_id string, medium string, purchas
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //PUT: Updates the specific purchase
 //For optional Params, use empty string "" and blankNumber for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
-func UpdatePurchase(purchaseId string, payerId string, medium string, amount float64, description string){
+func UpdatePurchase(purchaseId string, payerId string, medium string, amount float64, description string) string {
 
     url := baseUrl + "purchases/" + purchaseId + "?key=" + apiKey
 
@@ -154,14 +162,15 @@ func UpdatePurchase(purchaseId string, payerId string, medium string, amount flo
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //DELETE: Deletes the specific purchase
-func DeletePurchase(purchaseId string){
+func DeletePurchase(purchaseId string) string {
 
     url := baseUrl + "purchases/" + purchaseId+ "?key=" + apiKey
 
@@ -174,5 +183,9 @@ func DeletePurchase(purchaseId string){
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Body: Account was succesfully deleted")
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }

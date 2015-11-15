@@ -12,7 +12,7 @@ const baseUrl = "http://api.reimaginebanking.com/atms"
 var apiKey = shared.ApiKey
 
 //GET: Returns all of the Capital One ATMs in the speified search area (Pages not implemented yet)
-func GetAllBranches(lat float64, lng float64, rad int){
+func GetAllATMs(lat float64, lng float64, rad int) string{
 	
     var latString = strconv.FormatFloat(lat,'f',4,64)
     var lngString = strconv.FormatFloat(lng,'f',4,64)
@@ -29,11 +29,13 @@ func GetAllBranches(lat float64, lng float64, rad int){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    var stringBody = string(body)
+    //fmt.Println("Response Body:", stringBody)
+    return stringBody
 }
 
 //GET: Returns the ATM with the specific id
-func GetATMInfo(atmId string){
+func GetATMInfo(atmId string) string { 
 
     var url = baseUrl + "/" + atmId + "?key=" + apiKey
 
@@ -47,5 +49,7 @@ func GetATMInfo(atmId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    var stringBody = string(body)
+    fmt.Println("Response Body:", stringBody)
+    return stringBody
 }

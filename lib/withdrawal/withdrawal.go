@@ -14,7 +14,7 @@ const baseUrl = "http://api.reimaginebanking.com/"
 var apiKey = shared.ApiKey
 
 //GET: Returns the withdrawals that you are involved in
-func GetWithdrawalsByAccount(accountId string){
+func GetWithdrawalsByAccount(accountId string) string {
 
     var url = "http://api.reimaginebanking.com/accounts/" + accountId + "/withdrawals?key=" + apiKey
 
@@ -28,10 +28,13 @@ func GetWithdrawalsByAccount(accountId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
-func GetWithdrawalById(withdrawalId string) {
+func GetWithdrawalById(withdrawalId string) string {
 
      var url = "http://api.reimaginebanking.com/withdrawals/" + withdrawalId + "?key=" + apiKey
 
@@ -45,12 +48,15 @@ func GetWithdrawalById(withdrawalId string) {
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //POST: Creates a withdrawal
 //Optional POST Param transaction_date, status, description, use empty sting "" if omitted
-func CreateWithdrawal(accountId string, medium string, transaction_date string, status string, amount float64, description string){
+func CreateWithdrawal(accountId string, medium string, transaction_date string, status string, amount float64, description string) string {
     
     url := baseUrl + "accounts/" + accountId + "/withdrawals?key=" + apiKey
 
@@ -89,16 +95,17 @@ func CreateWithdrawal(accountId string, medium string, transaction_date string, 
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //PUT: Updates the specific withdrawal
 //For optional Params, use empty string "" and blankNumber for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
-func UpdateWithdrawal(withdrawalId string, medium string, amount float64, description string){
+func UpdateWithdrawal(withdrawalId string, medium string, amount float64, description string) string {
 
     url := baseUrl + "withdrawals/" + withdrawalId + "?key=" + apiKey
 
@@ -144,14 +151,15 @@ func UpdateWithdrawal(withdrawalId string, medium string, amount float64, descri
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //DELETE: Deletes the specific withdrawal
-func DeleteWithdrawal(withdrawalId string){
+func DeleteWithdrawal(withdrawalId string) string {
 
     url := baseUrl + "withdrawals/" + withdrawalId + "?key=" + apiKey
 
@@ -164,5 +172,9 @@ func DeleteWithdrawal(withdrawalId string){
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Body: Account was succesfully deleted")
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }

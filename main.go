@@ -1,9 +1,11 @@
 package main
 
 import(
-    
+
+    //comment out if not used
     "math"
-	//comment out if not used
+    //"fmt"
+
     //"./lib/account"
 	//"./lib/atm"
     //"./lib/bill"
@@ -21,8 +23,10 @@ func main() {
     //Demo Code for Requests (uncomment to run)
     const blankNumber = math.SmallestNonzeroFloat64
 
+    //You can print the output of each response using fmt.Println(), the functions return a JSON string.
+
     //======================Account======================= (DONE)
-    //account.GetAllAccounts()
+    //fmt.Println(account.GetAllAccounts())
     //account.GetAccountWithId("56241a13de4bf40b1711287b")
 	//account.GetAccountsOfCustomer("56241a12de4bf40b17111f9d")
     //account.CreateAccount("56241a12de4bf40b17111f9d", "Checking", "Account to Delete", 44444, 44444, "")
@@ -32,11 +36,11 @@ func main() {
     //account.DeleteAccount("562b073f0afebb140066cd58")
 
     //=======================ATM=========================
-    //atm.GetAllBranches(38.9283, -77.1753, 1)
+    //fmt.Println(atm.GetAllATMs(38.9283, -77.1753, 1))
     //atm.GetATMInfo("56241a12de4bf40b17111c65")
 
     //=======================BILL======================== (DONE)
-    //bill.GetBillsOfAccount("56241a13de4bf40b1711287b")
+    //fmt.Println(bill.GetBillsOfAccount("56241a13de4bf40b1711287a"))
     //bill.GetBillWithId("56241a14de4bf40b1711318c")
     //bill.GetBillsOfCustomer("56241a12de4bf40b17111f9c")
     //bill.CreateBill("56241a13de4bf40b1711287a", "completed", "Comcast", "Cable", "2001-05-22", 22, 6.55)
@@ -46,18 +50,18 @@ func main() {
     //bill.DeleteBill("562ef9db0afebb140066cdab")
 
     //======================Branch======================= (DONE)
-    //branch.GetAllBranches()
+    //fmt.Println(branch.GetAllBranches())
     //branch.GetBranchWithId("56241a12de4bf40b17111eb2")
 
     //=====================Customer====================== (DONE)
-    //customer.GetCustomerOfAccount("56241a13de4bf40b1711287a")
+    //fmt.Println(customer.GetCustomerOfAccount("56241a13de4bf40b1711287a"))
     //customer.GetAllCustomers()
     //customer.GetCustomerWithId("56241a12de4bf40b17111f9d")
     //customer.CreateCustomer("Robert", "Frost", "1111", "Infinity Loop", "Richmond", "VA", "22211")
     //customer.UpdateCustomer("56241a12de4bf40b17111f9d", "1112", "Infinity Loop", "Richmond", "VA", "22211")
 
     //=====================Deposit======================= (DONE)
-    //deposit.GetDepositOfAccount("56241a13de4bf40b1711287c")
+    //fmt.Println(deposit.GetDepositOfAccount("56241a13de4bf40b1711287c"))
     //deposit.GetDepositById("562ff3980afebb140066cdae")
     //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "10/26/2015", "completed", 65.23, "paycheck")
     //deposit.CreateDeposit("56241a13de4bf40b1711287b", "balance", "10/26/2015", "completed", 65.24, "paycheck")
@@ -71,7 +75,7 @@ func main() {
     //deposit.DeleteDeposit("5636ecd10afebb140066ce53")
 
     //=====================Merchant====================== (DONE)
-    //merchant.GetAllMerchants(38.9283, -77.1753, 1)
+    //fmt.Println(merchant.GetAllMerchants(38.9283, -77.1753, 1))
     //merchant.CreateMerchant("Dunkin Donuts", "Food", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
     //merchant.CreateMerchant("Dunkin Donuts3", "", "11006", "Capital One Dr.", "McLean", "VA", "20931", 38, -77)
     //merchant.CreateMerchant("Dunkin Donuts", "", "", "", "", "", "", 38.223, -77.111)
@@ -83,7 +87,7 @@ func main() {
     //merchant.UpdateMerchant("562db1380afebb140066cda1", "Wootton High School", "Education", "", "", "", "", "", -999, -999)
 
     //=====================Purchase======================= (DONE)
-    //purchase.GetPurchasesByAccount("56241a13de4bf40b1711287b")
+    //fmt.Println(purchase.GetPurchasesByAccount("56241a13de4bf40b1711287b"))
     //purchase.GetPurchaseById("56304a7b0afebb140066cdb9")
     //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "10/16/2015", 112.31, "pending", "Lot of Coffee")
     //purchase.CreatePurchase("56241a13de4bf40b1711287b", "562db1380afebb140066cda1", "balance", "", 112.31, "pending", "Lot of Coffee")
@@ -95,7 +99,7 @@ func main() {
     //purchase.DeletePurchase("5636e49e0afebb140066ce4d")
 
     //=====================Transfer======================== (DONE)
-    //transfer.GetTransfersByAccount("56241a13de4bf40b1711287b")
+    //fmt.Println(transfer.GetTransfersByAccount("56241a13de4bf40b1711287b"))
     //transfer.GetTransferById("5636f1000afebb140066ce54")
     //transfer.CreateTransfer("56241a13de4bf40b1711287b", "balance", "56241a13de4bf40b1711287b", 4238.71, "10/22/2015", "pending", "Salary")
     //transfer.CreateTransfer("56241a13de4bf40b1711287b", "balance", "56241a13de4bf40b1711287b", 138.71, "", "pending", "Free Money")
@@ -106,7 +110,7 @@ func main() {
     //transfer.DeleteTransfer("5636f87e0afebb140066ce5a")
 
     //=====================Withdrawl======================== (DONE)
-    //withdrawal.GetWithdrawalsByAccount("56241a13de4bf40b1711287b")
+    //fmt.Println(withdrawal.GetWithdrawalsByAccount("56241a13de4bf40b1711287b"))
     //withdrawal.GetWithdrawalById("563e5a6ec5be5d0f003c179b")
     //withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "","",500,"")
     //withdrawal.CreateWithdrawal("56241a13de4bf40b1711287a", "balance", "11/30/2015","",500,"string")

@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the bills that are tied to the specific account
-func GetBillsOfAccount(accountId string){
+func GetBillsOfAccount(accountId string) string {
 
     var url = baseUrl + "accounts/" + accountId + `/bills` + "?key=" + apiKey
    
@@ -29,11 +29,13 @@ func GetBillsOfAccount(accountId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    var stringBody = string(body)
+    //fmt.Println("Response Body:", stringBody)
+    return stringBody
 }
 
 //GET: Returns the bill with the specific id
-func GetBillWithId(billId string){
+func GetBillWithId(billId string) string {
 
     var url = baseUrl + "bills/" + billId + "?key=" + apiKey
    
@@ -47,11 +49,13 @@ func GetBillWithId(billId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    var stringBody = string(body)
+    //fmt.Println("Response Body:", stringBody)
+    return stringBody
 }
 
 //GET: Returns the bill with the specific id
-func GetBillsOfCustomer(customerId string){
+func GetBillsOfCustomer(customerId string) string {
 
     var url = baseUrl + "customers/" + customerId + "/bills?key=" + apiKey
    
@@ -65,12 +69,14 @@ func GetBillsOfCustomer(customerId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    var stringBody = string(body)
+    //fmt.Println("Response Body:", stringBody)
+    return stringBody
 }
 
 //POST: Creates a bill
 //For Optional params, use empty string "" or blankNumber for recurring_date
-func CreateBill(customerId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64){
+func CreateBill(customerId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64) string {
 
     var url = baseUrl + "accounts/" + customerId + "/bills?key=" + apiKey
 
@@ -108,14 +114,15 @@ func CreateBill(customerId string, status string, payee string, nickname string,
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //PUT: Updates the specific bill
-func UpdateBill(billId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64){
+func UpdateBill(billId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64) string {
 
     var url = baseUrl + "bills/" + billId + "?key=" + apiKey
 
@@ -153,14 +160,15 @@ func UpdateBill(billId string, status string, payee string, nickname string, pay
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    fmt.Println("Response Headers:", resp.Header)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Body:", string(body))
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //DELETE: Deletes the specific bill
-func DeleteBill(billId string){
+func DeleteBill(billId string) string {
 
 	var url = baseUrl + "bills/" + billId + "?key=" + apiKey
    
@@ -174,6 +182,9 @@ func DeleteBill(billId string){
     defer resp.Body.Close()
 
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Bill Deleted Successfully")
-    fmt.Println("response Body:", string(body))
+    
+    fmt.Println("Response Status:", resp.Status)
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }

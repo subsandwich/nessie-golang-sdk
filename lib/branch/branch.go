@@ -11,7 +11,7 @@ const baseUrl = "http://api.reimaginebanking.com/branches/"
 var apiKey = shared.ApiKey
 
 //GET: Returns all of the Capital One branches.
-func GetAllBranches(){
+func GetAllBranches() string {
 	
 	var url = baseUrl + "?key=" + apiKey
 
@@ -24,12 +24,15 @@ func GetAllBranches(){
     }
     defer resp.Body.Close()
 
+    fmt.Println("Response Status:", resp.Status)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
 
 //GET: Returns the branch with the specific id
-func GetBranchWithId(branchId string){
+func GetBranchWithId(branchId string) string {
 
 	var url = baseUrl + branchId + "?key=" + apiKey
 
@@ -42,6 +45,9 @@ func GetBranchWithId(branchId string){
     }
     defer resp.Body.Close()
 
+    fmt.Println("Response Status:", resp.Status)
     body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("response Body:", string(body))
+    var response = string(body)
+    //fmt.Println("Response Body:", response)
+    return response
 }
