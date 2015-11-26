@@ -9,7 +9,7 @@ Provides Wrapper Functions for Nessie API
 	var ApiKey = {YOUR_API_KEY_HERE}
 	````
 
-2. Import the package you need using the path of its location relative to your class
+2. Import the package you need using the path of its location relative to your file
 	````go
 	import(
     	"./lib/withdrawal"
@@ -17,7 +17,9 @@ Provides Wrapper Functions for Nessie API
 	)
 	````
 
-3. Use the code as shown in main.go
+3. Use the code as shown in main.go  
+	For example:  
+
 	````go
 	customer.GetAllCustomers()
 	````
