@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the deposits that you are involved in
-func GetDepositOfAccount(accountId string) string {
+func GetDepositOfAccount(accountId string) (string, error) {
 
     var url = baseUrl + "accounts/" + accountId + "/deposits?key=" + apiKey
 
@@ -24,19 +24,20 @@ func GetDepositOfAccount(accountId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the deposit with the specific id
-func GetDepositById(depositId string) string {
+func GetDepositById(depositId string) (string, error) {
 
     var url = baseUrl + "deposits/" + depositId + "?key=" + apiKey
 
@@ -45,24 +46,23 @@ func GetDepositById(depositId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //POST: Creates an account for the customer with the id provided
 //Optional POST Param transaction_date, status, description, use empty sting "" if omitted
-func CreateDeposit(accountId string, medium string, transaction_date string, status string, amount float64, description string) string {
+func CreateDeposit(accountId string, medium string, transaction_date string, status string, amount float64, description string) (string, error) {
 
     url := baseUrl + "accounts/" + accountId + "/deposits?key=" + apiKey
-
-    fmt.Println("URL:>", url)
 
     var amountStr = strconv.FormatFloat(amount,'f',4,64)
 
@@ -83,34 +83,31 @@ func CreateDeposit(accountId string, medium string, transaction_date string, sta
     } 
     
     payloadStr = payloadStr + `}`
-    
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //PUT: Updates the specific deposit
 //For optional Params, use empty string "" and "blankNumber" for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include will stay the same
-func UpdateDeposit(depositId string, medium string, amount float64, description string) string {
+func UpdateDeposit(depositId string, medium string, amount float64, description string) (string, error) {
 
     url := baseUrl + "deposits/" + depositId + "?key=" + apiKey
-
-    fmt.Println("URL:>", url)
 
     amountStr := strconv.FormatFloat(amount,'f',4,64)
 
@@ -138,28 +135,27 @@ func UpdateDeposit(depositId string, medium string, amount float64, description 
     } 
     
     payloadStr = payloadStr + `}`
-    
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //DELETE: Deletes the specific deposit
-func DeleteDeposit(depositId string) string {
+func DeleteDeposit(depositId string) (string, error) {
 
     url := baseUrl + "purchases/" + depositId+ "?key=" + apiKey
 
@@ -168,13 +164,14 @@ func DeleteDeposit(depositId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }

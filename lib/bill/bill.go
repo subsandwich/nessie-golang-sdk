@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the bills that are tied to the specific account
-func GetBillsOfAccount(accountId string) string {
+func GetBillsOfAccount(accountId string) (string, error) {
 
     var url = baseUrl + "accounts/" + accountId + `/bills` + "?key=" + apiKey
    
@@ -24,18 +24,20 @@ func GetBillsOfAccount(accountId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    var stringBody = string(body)
-    //fmt.Println("Response Body:", stringBody)
-    return stringBody
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the bill with the specific id
-func GetBillWithId(billId string) string {
+func GetBillWithId(billId string) (string, error) {
 
     var url = baseUrl + "bills/" + billId + "?key=" + apiKey
    
@@ -44,18 +46,20 @@ func GetBillWithId(billId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    var stringBody = string(body)
-    //fmt.Println("Response Body:", stringBody)
-    return stringBody
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the bill with the specific id
-func GetBillsOfCustomer(customerId string) string {
+func GetBillsOfCustomer(customerId string) (string, error) {
 
     var url = baseUrl + "customers/" + customerId + "/bills?key=" + apiKey
    
@@ -64,23 +68,24 @@ func GetBillsOfCustomer(customerId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    var stringBody = string(body)
-    //fmt.Println("Response Body:", stringBody)
-    return stringBody
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //POST: Creates a bill
 //For Optional params, use empty string "" or blankNumber for recurring_date
-func CreateBill(customerId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64) string {
+func CreateBill(customerId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64) (string, error) {
 
     var url = baseUrl + "accounts/" + customerId + "/bills?key=" + apiKey
 
-    fmt.Println("url", string(url))
 
     var recurring_dateStr = strconv.Itoa(recurring_date)
     var payment_amountStr = strconv.FormatFloat(payment_amount,'f',4,64)
@@ -101,32 +106,28 @@ func CreateBill(customerId string, status string, payee string, nickname string,
     
     payloadStr = payloadStr + `, "payment_amount":` + payment_amountStr + `}`
 
-    fmt.Println("payload:", string(payloadStr))
-
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //PUT: Updates the specific bill
-func UpdateBill(billId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64) string {
+func UpdateBill(billId string, status string, payee string, nickname string, payment_date string, recurring_date int, payment_amount float64) (string, error) {
 
     var url = baseUrl + "bills/" + billId + "?key=" + apiKey
-
-    fmt.Println("url", string(url))
 
     var recurring_dateStr = strconv.Itoa(recurring_date)
     var payment_amountStr = strconv.FormatFloat(payment_amount,'f',4,64)
@@ -147,28 +148,27 @@ func UpdateBill(billId string, status string, payee string, nickname string, pay
     
     payloadStr = payloadStr + `, "payment_amount":` + payment_amountStr + `}`
 
-    fmt.Println("payload:", string(payloadStr))
 
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //DELETE: Deletes the specific bill
-func DeleteBill(billId string) string {
+func DeleteBill(billId string) (string, error) {
 
 	var url = baseUrl + "bills/" + billId + "?key=" + apiKey
    
@@ -177,14 +177,14 @@ func DeleteBill(billId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }

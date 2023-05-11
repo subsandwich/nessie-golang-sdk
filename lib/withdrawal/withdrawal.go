@@ -14,7 +14,7 @@ const baseUrl = "http://api.reimaginebanking.com/"
 var apiKey = shared.ApiKey
 
 //GET: Returns the withdrawals that you are involved in
-func GetWithdrawalsByAccount(accountId string) string {
+func GetWithdrawalsByAccount(accountId string) (string, error) {
 
     var url = "http://api.reimaginebanking.com/accounts/" + accountId + "/withdrawals?key=" + apiKey
 
@@ -23,18 +23,19 @@ func GetWithdrawalsByAccount(accountId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
-func GetWithdrawalById(withdrawalId string) string {
+func GetWithdrawalById(withdrawalId string) (string, error) {
 
      var url = "http://api.reimaginebanking.com/withdrawals/" + withdrawalId + "?key=" + apiKey
 
@@ -43,28 +44,27 @@ func GetWithdrawalById(withdrawalId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //POST: Creates a withdrawal
 //Optional POST Param transaction_date, status, description, use empty sting "" if omitted
-func CreateWithdrawal(accountId string, medium string, transaction_date string, status string, amount float64, description string) string {
+func CreateWithdrawal(accountId string, medium string, transaction_date string, status string, amount float64, description string) (string, error) {
     
     url := baseUrl + "accounts/" + accountId + "/withdrawals?key=" + apiKey
 
-    fmt.Println("URL:>", url)
+    amountStr := strconv.FormatFloat(amount,'f',4,64)
 
-    var amountStr = strconv.FormatFloat(amount,'f',4,64)
-
-    var payloadStr = `{"medium":"` + medium + `"`
+    payloadStr := `{"medium":"` + medium + `"`
 
     if len(transaction_date) > 0{
         payloadStr = payloadStr + `, "transaction_date":"` + transaction_date + `"`
@@ -83,33 +83,30 @@ func CreateWithdrawal(accountId string, medium string, transaction_date string, 
     
     payloadStr = payloadStr + `}`
     
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //PUT: Updates the specific withdrawal
 //For optional Params, use empty string "" and blankNumber for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
-func UpdateWithdrawal(withdrawalId string, medium string, amount float64, description string) string {
+func UpdateWithdrawal(withdrawalId string, medium string, amount float64, description string) (string, error) {
 
     url := baseUrl + "withdrawals/" + withdrawalId + "?key=" + apiKey
-
-    fmt.Println("URL:>", url)
 
     amountStr := strconv.FormatFloat(amount,'f',4,64)
 
@@ -139,27 +136,26 @@ func UpdateWithdrawal(withdrawalId string, medium string, amount float64, descri
     
     payloadStr = payloadStr + `}`
     
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //DELETE: Deletes the specific withdrawal
-func DeleteWithdrawal(withdrawalId string) string {
+func DeleteWithdrawal(withdrawalId string) (string, error) {
 
     url := baseUrl + "withdrawals/" + withdrawalId + "?key=" + apiKey
 
@@ -168,13 +164,14 @@ func DeleteWithdrawal(withdrawalId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }

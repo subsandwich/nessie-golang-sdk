@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the transfers that you are involved in
-func GetTransfersByAccount(accountId string) string {
+func GetTransfersByAccount(accountId string) (string, error) {
 	
 	url := baseUrl + "accounts/" + accountId + "/transfers?key=" + apiKey
 
@@ -24,19 +24,20 @@ func GetTransfersByAccount(accountId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the transfer with the specific id
-func GetTransferById(transferId string) string {
+func GetTransferById(transferId string) (string, error) {
 	
 	url := baseUrl + "transfers/" + transferId + "?key=" + apiKey
 
@@ -45,29 +46,28 @@ func GetTransferById(transferId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //POST: Creates a transfer where the account with the ID specified is the payer
 //Optional POST Param transaction_date, status, description, use empty sting "" if omitted
 func CreateTransfer(accountId string, medium string, payeeId string, amount float64, transaction_date string, 
-        status string, description string) string {
+        status string, description string) (string, error) {
 
     url := baseUrl + "accounts/" + accountId + "/transfers?key=" + apiKey
 
-    fmt.Println("URL:>", url)
+    amountStr := strconv.FormatFloat(amount,'f',4,64)
 
-    var amountStr = strconv.FormatFloat(amount,'f',4,64)
-
-    var payloadStr = `{"medium":"` + medium + `", "payee_id": "` + payeeId + `", "amount": ` + amountStr
+    payloadStr := `{"medium":"` + medium + `", "payee_id": "` + payeeId + `", "amount": ` + amountStr
 
     if len(transaction_date) > 0{
         payloadStr = payloadStr + `, "transaction_date":"` + transaction_date + `"`
@@ -84,33 +84,30 @@ func CreateTransfer(accountId string, medium string, payeeId string, amount floa
     
     payloadStr = payloadStr + `}`
     
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //PUT: Updates the specific transfer
 //For optional Params, use empty string "" and blankNumber for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
-func UpdateTransfer(transferId string, medium string, payeeId string, amount float64, description string) string {
+func UpdateTransfer(transferId string, medium string, payeeId string, amount float64, description string) (string, error) {
 
     url := baseUrl + "transfers/" + transferId + "?key=" + apiKey
-
-    fmt.Println("URL:>", url)
 
     amountStr := strconv.FormatFloat(amount,'f',4,64)
 
@@ -148,27 +145,27 @@ func UpdateTransfer(transferId string, medium string, payeeId string, amount flo
     
     payloadStr = payloadStr + `}`
     
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
+
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //DELETE: Deletes the specific transfer
-func DeleteTransfer(transferId string) string {
+func DeleteTransfer(transferId string) (string, error) {
 
     url := baseUrl + "transfers/" + transferId + "?key=" + apiKey
 
@@ -177,13 +174,14 @@ func DeleteTransfer(transferId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }

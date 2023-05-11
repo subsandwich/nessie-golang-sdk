@@ -11,7 +11,7 @@ const baseUrl = "http://api.reimaginebanking.com/branches/"
 var apiKey = shared.ApiKey
 
 //GET: Returns all of the Capital One branches.
-func GetAllBranches() string {
+func GetAllBranches() (string, error) {
 	
 	var url = baseUrl + "?key=" + apiKey
 
@@ -20,19 +20,20 @@ func GetAllBranches() string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    body, _ := ioutil.ReadAll(resp.Body)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the branch with the specific id
-func GetBranchWithId(branchId string) string {
+func GetBranchWithId(branchId string) (string, error) {
 
 	var url = baseUrl + branchId + "?key=" + apiKey
 
@@ -41,13 +42,14 @@ func GetBranchWithId(branchId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    body, _ := ioutil.ReadAll(resp.Body)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }

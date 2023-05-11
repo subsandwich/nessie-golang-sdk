@@ -23,7 +23,7 @@ func IsNumeric (text string) bool{
 }
 
 //GET: Returns the merchants that have been assigned to you
-func GetAllMerchants(lat float64, lng float64, rad int) string {
+func GetAllMerchants(lat float64, lng float64, rad int) (string, error) {
 	
     latString := strconv.FormatFloat(lat,'f',4,64)
     lngString := strconv.FormatFloat(lng,'f',4,64)
@@ -36,19 +36,20 @@ func GetAllMerchants(lat float64, lng float64, rad int) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the merchant with the specific id
-func GetMerchantInfo(merchantId string) string {
+func GetMerchantInfo(merchantId string) (string, error) {
 
     var url = baseUrl + "/" + merchantId + "?key=" + apiKey
 
@@ -57,32 +58,33 @@ func GetMerchantInfo(merchantId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //POST: Creates a merchant
 //For optional Params, use empty string "" and blankNumber for empty lat/lng
 func CreateMerchant(merchantName string, categories []string, street_number string, street_name string, city string, state string, zip string,
-         lat float64, lng float64) string {
+         lat float64, lng float64) (string, error) {
 
     if len(categories) == 0 {
-        fmt.Println("Categories field cannot be empty")
+        return "", fmt.Errorf("Categories field cannot be empty")
     }
 
     if len(state) > 2 {
-        fmt.Println("State field needs to be the two letter abbreviation of the state")
+        return "", fmt.Errorf("State field needs to be the two letter abbreviation of the state")
     }
 
     if len(zip) != 5 || !IsNumeric(zip) {
-        fmt.Println("Zip code field needs to be numeric and have a length of 5")
+        return "", fmt.Errorf("Zip code field needs to be numeric and have a length of 5")
     }
 
     formattedCategories := make([]string, len(categories))
@@ -98,7 +100,6 @@ func CreateMerchant(merchantName string, categories []string, street_number stri
 
     url := baseUrl + "?key=" + apiKey
 
-    fmt.Println("URL:>", url)
 
     var latString = strconv.FormatFloat(lat,'f',4,64)
     var lngString = strconv.FormatFloat(lng,'f',4,64)
@@ -124,13 +125,6 @@ func CreateMerchant(merchantName string, categories []string, street_number stri
     
     payloadStr = payloadStr + `}`
 
-    // fmt.Println("geocode payload:", string(geocode))
-    // fmt.Println("address payload:", string(address))
-    fmt.Println("categories: ", categories)
-    fmt.Println("formattedCategories: ", formattedCategories)
-    fmt.Println("JSONcategories:", categoriesString)
-    fmt.Println("payload:", string(payloadStr))
-
     var jsonStr = []byte(payloadStr)
     req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
     req.Header.Set("Content-Type", "application/json")
@@ -138,34 +132,34 @@ func CreateMerchant(merchantName string, categories []string, street_number stri
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
-}
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 
 //PUT: Updates a specific merchant
 //For optional Params, use empty string "" and blankNumber for empty lat/lng
 func UpdateMerchant(merchantId string, merchantName string, categories []string, street_number string, street_name string, city string, state string, zip string,
-         lat float64, lng float64) string {
+         lat float64, lng float64) (string, error) {
 
     url := baseUrl + "/" + merchantId + "?key=" + apiKey
 
     if len(categories) == 0 {
-        fmt.Println("Categories field cannot be empty")
+        return "", fmt.Errorf("Categories field cannot be empty")
     }
 
     if len(state) > 2 {
-        fmt.Println("State field needs to be the two letter abbreviation of the state")
+        return "", fmt.Errorf("State field needs to be the two letter abbreviation of the state")
     }
 
     if len(zip) != 5 || !IsNumeric(zip) {
-        fmt.Println("Zip code field needs to be numeric and have a length of 5")
+        return "", fmt.Errorf("Zip code field needs to be numeric and have a length of 5")
     }
 
     formattedCategories := make([]string, len(categories))
@@ -179,8 +173,6 @@ func UpdateMerchant(merchantId string, merchantName string, categories []string,
     categoriesString := "["
     categoriesString = categoriesString + strings.Join(formattedCategories, ",") + "]"
 
-    fmt.Println("URL:>", url)
-
     var latString = strconv.FormatFloat(lat,'f',4,64)
     var lngString = strconv.FormatFloat(lng,'f',4,64)
 
@@ -204,10 +196,6 @@ func UpdateMerchant(merchantId string, merchantName string, categories []string,
     } 
     
     payloadStr = payloadStr + `}`
-    
-    fmt.Println("geocode payload:", string(geocode))
-    fmt.Println("address payload:", string(address))
-    fmt.Println("payload:", string(payloadStr))
 
     var jsonStr = []byte(payloadStr)
     req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
@@ -216,13 +204,14 @@ func UpdateMerchant(merchantId string, merchantName string, categories []string,
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }

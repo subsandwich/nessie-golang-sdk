@@ -15,7 +15,7 @@ var apiKey = shared.ApiKey
 const blankNumber = math.SmallestNonzeroFloat64
 
 //GET: Returns the purchases that you are involved in
-func GetPurchasesByAccount(accountId string) string {
+func GetPurchasesByAccount(accountId string) (string, error) {
 
 	var url = baseUrl + "accounts/" + accountId + "/purchases?key=" + apiKey
 
@@ -24,19 +24,20 @@ func GetPurchasesByAccount(accountId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the purchase with the specific id
-func GetPurchaseById(purchaseId string) string {
+func GetPurchaseById(purchaseId string) (string, error) {
 
 	var url = baseUrl + "purchases/" + purchaseId + "?key=" + apiKey
 
@@ -45,29 +46,28 @@ func GetPurchaseById(purchaseId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //POST: Creates a purchase where the account with the ID specified is the payer
 //For optional Params, use empty string ""
 func CreatePurchase(accountId string, merchant_id string, medium string, purchase_date string, amount float64,
-     status string, description string) string {
+     status string, description string) (string, error) {
 
     url := baseUrl + "accounts/" + accountId + "/purchases?key=" + apiKey
 
-    fmt.Println("URL:>", url)
+    amountStr := strconv.FormatFloat(amount,'f',4,64)
 
-    var amountStr = strconv.FormatFloat(amount,'f',4,64)
-
-    var payloadStr = `{"merchant_id":"` + merchant_id +  `", "medium":"` + medium + `"`
+    payloadStr := `{"merchant_id":"` + merchant_id +  `", "medium":"` + medium + `"`
 
     if len(purchase_date) > 0{
         payloadStr = payloadStr + `, "purchase_date":"` + purchase_date + `"`
@@ -86,33 +86,30 @@ func CreatePurchase(accountId string, merchant_id string, medium string, purchas
     
     payloadStr = payloadStr + `}`
     
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //PUT: Updates the specific purchase
 //For optional Params, use empty string "" and blankNumber for optional float
 //NOTE: You don't have to update all fields. Any fields you don't include in the body will stay the same
-func UpdatePurchase(purchaseId string, payerId string, medium string, amount float64, description string) string {
+func UpdatePurchase(purchaseId string, payerId string, medium string, amount float64, description string) (string, error) {
 
     url := baseUrl + "purchases/" + purchaseId + "?key=" + apiKey
-
-    fmt.Println("URL:>", url)
 
     amountStr := strconv.FormatFloat(amount,'f',4,64)
 
@@ -150,27 +147,26 @@ func UpdatePurchase(purchaseId string, payerId string, medium string, amount flo
     
     payloadStr = payloadStr + `}`
     
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //DELETE: Deletes the specific purchase
-func DeletePurchase(purchaseId string) string {
+func DeletePurchase(purchaseId string) (string, error) {
 
     url := baseUrl + "purchases/" + purchaseId+ "?key=" + apiKey
 
@@ -179,13 +175,14 @@ func DeletePurchase(purchaseId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }

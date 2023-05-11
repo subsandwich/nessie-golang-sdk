@@ -12,7 +12,7 @@ const baseUrl = "http://api.reimaginebanking.com/customers"
 var apiKey = shared.ApiKey
 
 //GET: Returns the customer that the account belongs to
-func GetCustomerOfAccount(accountId string) string {
+func GetCustomerOfAccount(accountId string) (string, error) {
 
     var url = "http://api.reimaginebanking.com/accounts/" + accountId + "/customer?key=" + apiKey
 
@@ -21,19 +21,19 @@ func GetCustomerOfAccount(accountId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
-    
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
-}
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 
 //GET: Returns the customers that have been assigned to you
-func GetAllCustomers() string {
+func GetAllCustomers() (string, error) {
 
     var url = baseUrl + "?key=" + apiKey
 
@@ -42,19 +42,20 @@ func GetAllCustomers() string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the customer with the specific id
-func GetCustomerWithId(customerId string) string {
+func GetCustomerWithId(customerId string) (string, error) {
 
     var url = baseUrl + `/` + customerId + "?key=" + apiKey
 
@@ -63,75 +64,70 @@ func GetCustomerWithId(customerId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //POST: Creates a customer
-func CreateCustomer(firstName string, lastName string, street_number string, street_name string, city string, state string, zip string) string {
+func CreateCustomer(firstName string, lastName string, street_number string, street_name string, city string, state string, zip string) (string, error) {
 
     var url = baseUrl + "?key=" + apiKey
 
-    //fmt.Println("URL:>", url)
 
     var address = `{"street_number": "` + street_number + `", "street_name":"` + street_name + `", "city": "` + city + `", "state":"` + state + `", "zip":"` + zip + `"}`
 
     var payloadStr = `{"first_name":"` + firstName + `", "last_name": "` + lastName + `", "address":` + address + `}`
 
-    fmt.Println("payload:", string(payloadStr))
-
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //PUT: Updates the specific customer
-func UpdateCustomer(customerId string, street_number string, street_name string, city string, state string, zip string) string {
+func UpdateCustomer(customerId string, street_number string, street_name string, city string, state string, zip string) (string, error) {
 
     var url = baseUrl + `/` + customerId + "?key=" + apiKey
 
-    //fmt.Println("URL:>", url)
 
     var address = `{"street_number": "` + street_number + `", "street_name":"` + street_name + `", "city": "` + city + `", "state":"` + state + `", "zip":"` + zip + `"}`
 
     var payloadStr = `{"address":` + address + `}`
 
-    fmt.Println("payload:", string(payloadStr))
-
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }

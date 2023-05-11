@@ -13,7 +13,7 @@ const baseUrl = "http://api.reimaginebanking.com/"
 var apiKey = shared.ApiKey
 
 //GET: Returns the accounts that have been assigned to you
-func GetAllAccounts() string {
+func GetAllAccounts() (string, error) {
 
     url := "http://api.reimaginebanking.com/accounts?key=" + apiKey
 
@@ -22,18 +22,20 @@ func GetAllAccounts() string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the account with the specific id
-func GetAccountWithId(accountId string) string {
+func GetAccountWithId(accountId string) (string, error) {
 
     url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
 
@@ -42,18 +44,20 @@ func GetAccountWithId(accountId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //GET: Returns the accounts associated with the specific customer
-func GetAccountsOfCustomer(customerId string) string {
+func GetAccountsOfCustomer(customerId string) (string, error) {
 
     url := baseUrl + "/customers/" + customerId+ "/accounts?key=" + apiKey
 
@@ -62,23 +66,24 @@ func GetAccountsOfCustomer(customerId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //POST: Creates an account for the customer with the id provided
 //Optional POST Param account_number, use empty sting "" if omitted
-func CreateAccount(customerId string, accountType string, nickname string, rewards int, balance int, account_number string) string {
+func CreateAccount(customerId string, accountType string, nickname string, rewards int, balance int, account_number string) (string, error) {
 
     url := baseUrl + "/customers/" + customerId + "/accounts?key=" + apiKey
 
-    //fmt.Println("URL:>", url)
 
     rewardsString  := strconv.Itoa(rewards)
     balanceString := strconv.Itoa(balance)
@@ -91,29 +96,27 @@ func CreateAccount(customerId string, accountType string, nickname string, rewar
         payloadStr = `{"type":"` + accountType + `","nickname":"` + nickname + `","rewards":` + rewardsString + `, "balance":` + balanceString + `}`
     }
     
-    
-    fmt.Println(string(payloadStr))
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    fmt.Println("Response Status:", resp.Status)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //PUT: Updates the specific account
 //Optional PUT Param account_number, use empty sting "" if omitted
-func UpdateAccount(accountId string, nickname string, account_number string) string {
+func UpdateAccount(accountId string, nickname string, account_number string) (string, error) {
 
     url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
 
@@ -125,25 +128,26 @@ func UpdateAccount(accountId string, nickname string, account_number string) str
         payloadStr = `{"nickname":"` + nickname + `"}`
     }
 
-    var jsonStr = []byte(payloadStr)
-    req, err := http.NewRequest("PUT", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(payloadStr)))
     req.Header.Set("Content-Type", "application/json")
 
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    body, _ := ioutil.ReadAll(resp.Body)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
 
 //DELETE: Deletes the specific account
-func DeleteAccount(accountId string) string {
+func DeleteAccount(accountId string) (string, error) {
 
     url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
 
@@ -152,13 +156,14 @@ func DeleteAccount(accountId string) string {
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        panic(err)
+        return "", err
     }
     defer resp.Body.Close()
 
-    fmt.Println("Response Status:", resp.Status)
-    body, _ := ioutil.ReadAll(resp.Body)
-    var response = string(body)
-    //fmt.Println("Response Body:", response)
-    return response
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return "", err
+    }
+
+    return string(body), nil
 }
