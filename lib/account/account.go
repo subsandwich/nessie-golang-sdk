@@ -1,169 +1,146 @@
 package account
 
-import(
-    "fmt"
-    "net/http"
-    "bytes"
-    "io/ioutil"
-    "strconv"
-    "../shared"
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"json"
+	"net/http"
 )
 
-const baseUrl = "http://api.reimaginebanking.com/"
-var apiKey = shared.ApiKey
-
-//GET: Returns the accounts that have been assigned to you
-func GetAllAccounts() (string, error) {
-
-    url := "http://api.reimaginebanking.com/accounts?key=" + apiKey
-
-    req, err := http.NewRequest("GET", url, nil)
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        return "", err
-    }
-    defer resp.Body.Close()
-
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return "", err
-    }
-
-    return string(body), nil
+type Client struct {
+	underlyingClient *http.Client
+	baseURL          string
+	apiKey           string
 }
 
-//GET: Returns the account with the specific id
-func GetAccountWithId(accountId string) (string, error) {
-
-    url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
-
-    req, err := http.NewRequest("GET", url, nil)
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        return "", err
-    }
-    defer resp.Body.Close()
-
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return "", err
-    }
-
-    return string(body), nil
+func New(apiKey string) *Client {
+	return &Client{
+		underlyingClient: &http.Client{},
+		baseURL:          "http://api.reimaginebanking.com",
+		apiKey:           apiKey,
+	}
 }
 
-//GET: Returns the accounts associated with the specific customer
-func GetAccountsOfCustomer(customerId string) (string, error) {
-
-    url := baseUrl + "/customers/" + customerId+ "/accounts?key=" + apiKey
-
-    req, err := http.NewRequest("GET", url, nil)
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        return "", err
-    }
-    defer resp.Body.Close()
-
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return "", err
-    }
-
-    return string(body), nil
+type Account struct {
+	ID            string `json:"_id"`
+	Type          string `json:"type"`
+	Nickname      string `json:"nickname"`
+	Rewards       int    `json:"rewards"`
+	Balance       int    `json:"balance"`
+	AccountNumber string `json:"account_number"`
+	CustomerID    string `json:"customer_id"`
 }
 
-//POST: Creates an account for the customer with the id provided
-//Optional POST Param account_number, use empty sting "" if omitted
-func CreateAccount(customerId string, accountType string, nickname string, rewards int, balance int, account_number string) (string, error) {
-
-    url := baseUrl + "/customers/" + customerId + "/accounts?key=" + apiKey
-
-
-    rewardsString  := strconv.Itoa(rewards)
-    balanceString := strconv.Itoa(balance)
-    
-    var payloadStr = ""
-
-    if len(account_number) > 0 {
-        payloadStr = `{"type":"` + accountType + `","nickname":"` + nickname + `","rewards":` + rewardsString + `, "balance":` + balanceString + `, "account_number":"` + account_number + `"}`
-    } else{
-        payloadStr = `{"type":"` + accountType + `","nickname":"` + nickname + `","rewards":` + rewardsString + `, "balance":` + balanceString + `}`
-    }
-    
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(payloadStr)))
-    req.Header.Set("Content-Type", "application/json")
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        return "", err
-    }
-    defer resp.Body.Close()
-
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return "", err
-    }
-
-    return string(body), nil
+type PostAccountInput struct {
+	Type          string `json:"type"`
+	Nickname      string `json:"nickname"`
+	Rewards       int    `json:"rewards"`
+	Balance       int    `json:"balance"`
+	AccountNumber string `json:"account_number,omitempty"`
 }
 
-//PUT: Updates the specific account
-//Optional PUT Param account_number, use empty sting "" if omitted
-func UpdateAccount(accountId string, nickname string, account_number string) (string, error) {
-
-    url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
-
-    var payloadStr = ""
-
-    if len(account_number) > 0 {
-        payloadStr = `{"nickname":"` + nickname + `", "account_number":"` + account_number + `"}`
-    } else {
-        payloadStr = `{"nickname":"` + nickname + `"}`
-    }
-
-    req, err := http.NewRequest("PUT", url, bytes.NewBuffer([]byte(payloadStr)))
-    req.Header.Set("Content-Type", "application/json")
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        return "", err
-    }
-    defer resp.Body.Close()
-
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return "", err
-    }
-
-    return string(body), nil
+type PutAccountInput struct {
+	Nickname      string `json:"nickname"`
+	AccountNumber string `json:"account_number,omitempty"`
 }
 
-//DELETE: Deletes the specific account
-func DeleteAccount(accountId string) (string, error) {
+func (c *Client) createURL(path string) string {
+	return fmt.Sprintf("%s/%s?key=%s", c.baseURL, path, c.apiKey)
+}
 
-    url := baseUrl + "accounts/" + accountId+ "?key=" + apiKey
+// GET: Returns the accounts that have been assigned to you
+func (c *Client) GetAllAccounts() (acct Account, err error) {
+	resp, err := c.underlyingClient.Get(c.createURL("accounts"))
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
 
-    req, err := http.NewRequest("DELETE", url, nil)
+	err = json.NewDecoder(resp.Body).Decode(&acct)
+	return
+}
 
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        return "", err
-    }
-    defer resp.Body.Close()
+// GET: Returns the account with the specific id
+func (c *Client) GetAccountWithId(accountId string) (acct Account, err error) {
+	resp, err := c.underlyingClient.Get(fmt.Sprintf("accounts/%s", accountId))
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
 
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return "", err
-    }
+	err = json.NewDecoder(resp.Body).Decode(&acct)
+	return
+}
 
-    return string(body), nil
+// GET: Returns the accounts associated with the specific customer
+func (c *Client) GetAccountsOfCustomer(customerId string) (accts []Account, err error) {
+	resp, err := c.underlyingClient.Get(c.createURL(fmt.Sprintf("customers/%s/accounts", customerId)))
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+
+	err = json.NewDecoder(resp.Body).Decode(&accts)
+	return
+}
+
+// POST: Creates an account for the customer with the id provided
+// Optional POST Param account_number, use empty sting "" if omitted
+func (c *Client) CreateAccount(customerID string, input PostAccountInput) error {
+	b, err := json.Marshal(input)
+	if err != nil {
+		return err
+	}
+
+	resp, err := c.underlyingClient.Post(c.createURL(fmt.Sprintf("customers/%s/accounts", customerID)), "application/json", bytes.NewBuffer(b))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusCreated {
+		return fmt.Errorf("unable to create account, status: %d", resp.StatusCode)
+	}
+	return nil
+}
+
+// PUT: Updates the specific account
+// Optional PUT Param account_number, use empty sting "" if omitted
+func (c *Client) UpdateAccount(accountID string, input PutAccountInput) error {
+	b, err := json.Marshal(input)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest("PUT", c.createURL(fmt.Sprintf("accounts/%s", accountID)), bytes.NewBuffer(b))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := c.underlyingClient.Do(req)
+	if err != nil {
+		return err
+	} else if resp.StatusCode != http.StatusAccepted {
+		return fmt.Errorf("unable to update account, status: %d", resp.StatusCode)
+	}
+
+	return nil
+}
+
+// DELETE: Deletes the specific account
+func (c *Client) DeleteAccount(accountID string) error {
+	req, err := http.NewRequest("DELETE", c.createURL(fmt.Sprintf("accounts/%s", accountID)), nil)
+	if err != nil {
+		return err
+	}
+	resp, err := c.underlyingClient.Do(req)
+	if err != nil {
+		return err
+	} else if resp.StatusCode != http.StatusNoContent {
+		return fmt.Errorf("unable to delete account, status: %d", resp.StatusCode)
+	}
+
+	return nil
 }
