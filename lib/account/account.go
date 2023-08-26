@@ -68,22 +68,26 @@ func (c *Client) createURL(path string) string {
 }
 
 // GET: Returns the accounts that have been assigned to you
-func (c *Client) GetAllAccounts() (acct Account, err error) {
+func (c *Client) GetAllAccounts() (accts []Account, err error) {
 	resp, err := c.underlyingClient.Get(c.createURL("accounts"))
 	if err != nil {
 		return
+	} else if resp.StatusCode != http.StatusOK {
+		return accts, fmt.Errorf("unable to get accounts, status: %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
 
-	err = json.NewDecoder(resp.Body).Decode(&acct)
+	err = json.NewDecoder(resp.Body).Decode(&accts)
 	return
 }
 
 // GET: Returns the account with the specific id
 func (c *Client) GetAccountWithId(accountId string) (acct Account, err error) {
-	resp, err := c.underlyingClient.Get(fmt.Sprintf("accounts/%s", accountId))
+	resp, err := c.underlyingClient.Get(c.createURL(fmt.Sprintf("accounts/%s", accountId)))
 	if err != nil {
 		return
+	} else if resp.StatusCode != http.StatusOK {
+		return acct, fmt.Errorf("unable to get account, status: %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
 
@@ -96,6 +100,8 @@ func (c *Client) GetAccountsOfCustomer(customerId string) (accts []Account, err 
 	resp, err := c.underlyingClient.Get(c.createURL(fmt.Sprintf("customers/%s/accounts", customerId)))
 	if err != nil {
 		return
+	} else if resp.StatusCode != http.StatusOK {
+		return accts, fmt.Errorf("unable to get accounts, status: %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
 
