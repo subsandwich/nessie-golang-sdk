@@ -35,10 +35,12 @@ func (c *Client) GetAllAccounts() (accts []Account, err error) {
 	resp, err := c.underlyingClient.Get(c.createURL("accounts"))
 	if err != nil {
 		return
-	} else if resp.StatusCode != http.StatusOK {
-		return accts, fmt.Errorf("unable to get accounts, status: %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return accts, fmt.Errorf("unable to get accounts, status: %d", resp.StatusCode)
+	}
 
 	err = json.NewDecoder(resp.Body).Decode(&accts)
 	return
@@ -49,10 +51,12 @@ func (c *Client) GetAccountWithId(accountId string) (acct Account, err error) {
 	resp, err := c.underlyingClient.Get(c.createURL(fmt.Sprintf("accounts/%s", accountId)))
 	if err != nil {
 		return
-	} else if resp.StatusCode != http.StatusOK {
-		return acct, fmt.Errorf("unable to get account, status: %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return acct, fmt.Errorf("unable to get account, status: %d", resp.StatusCode)
+	}
 
 	err = json.NewDecoder(resp.Body).Decode(&acct)
 	return
@@ -63,10 +67,12 @@ func (c *Client) GetAccountsOfCustomer(customerId string) (accts []Account, err 
 	resp, err := c.underlyingClient.Get(c.createURL(fmt.Sprintf("customers/%s/accounts", customerId)))
 	if err != nil {
 		return
-	} else if resp.StatusCode != http.StatusOK {
-		return accts, fmt.Errorf("unable to get accounts, status: %d", resp.StatusCode)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return accts, fmt.Errorf("unable to get accounts, status: %d", resp.StatusCode)
+	}
 
 	err = json.NewDecoder(resp.Body).Decode(&accts)
 	return
@@ -109,7 +115,10 @@ func (c *Client) UpdateAccount(accountID string, input PutAccountInput) error {
 	resp, err := c.underlyingClient.Do(req)
 	if err != nil {
 		return err
-	} else if resp.StatusCode != http.StatusAccepted {
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusAccepted {
 		return fmt.Errorf("unable to update account, status: %d", resp.StatusCode)
 	}
 
@@ -125,7 +134,10 @@ func (c *Client) DeleteAccount(accountID string) error {
 	resp, err := c.underlyingClient.Do(req)
 	if err != nil {
 		return err
-	} else if resp.StatusCode != http.StatusNoContent {
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusNoContent {
 		return fmt.Errorf("unable to delete account, status: %d", resp.StatusCode)
 	}
 
