@@ -17,7 +17,7 @@ type Client struct {
 func New(apiKey string) *Client {
 	return &Client{
 		underlyingClient: &http.Client{},
-		baseURL:          "http://api.reimaginebanking.com",
+		baseURL:          "http://api.nessieisreal.com",
 		apiKey:           apiKey,
 	}
 }
