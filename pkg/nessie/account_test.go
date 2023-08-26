@@ -1,4 +1,4 @@
-package account
+package nessie
 
 import (
 	"encoding/json"
