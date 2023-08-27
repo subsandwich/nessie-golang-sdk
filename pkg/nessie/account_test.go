@@ -24,7 +24,7 @@ func TestDeleteAccount(t *testing.T) {
 		{
 			name:           "Server Issue",
 			responseStatus: http.StatusInternalServerError,
-			err:            fmt.Errorf("unable to delete account, status: %d", http.StatusInternalServerError),
+			err:            fmt.Errorf("unable to delete, status: %d", http.StatusInternalServerError),
 		},
 	}
 
@@ -64,7 +64,7 @@ func TestUpdateAccount(t *testing.T) {
 		{
 			name:           "Server Issue",
 			responseStatus: http.StatusInternalServerError,
-			err:            fmt.Errorf("unable to update account, status: %d", http.StatusInternalServerError),
+			err:            fmt.Errorf("unable to put, status: %d", http.StatusInternalServerError),
 		},
 	}
 
@@ -116,7 +116,7 @@ func TestCreateAccount(t *testing.T) {
 		{
 			name:           "Server Issue",
 			responseStatus: http.StatusInternalServerError,
-			err:            fmt.Errorf("unable to create account, status: %d", http.StatusInternalServerError),
+			err:            fmt.Errorf("unable to post, status: %d", http.StatusInternalServerError),
 		},
 	}
 
@@ -173,7 +173,7 @@ func TestGetAccountsOfCustomer(t *testing.T) {
 		{
 			name:           "Server Issue",
 			responseStatus: http.StatusInternalServerError,
-			err:            fmt.Errorf("unable to get accounts, status: %d", http.StatusInternalServerError),
+			err:            fmt.Errorf("unable to get, status: %d", http.StatusInternalServerError),
 		},
 	}
 
@@ -226,7 +226,7 @@ func TestGetAccountWithId(t *testing.T) {
 		{
 			name:           "Server Issue",
 			responseStatus: http.StatusInternalServerError,
-			err:            fmt.Errorf("unable to get account, status: %d", http.StatusInternalServerError),
+			err:            fmt.Errorf("unable to get, status: %d", http.StatusInternalServerError),
 		},
 	}
 
@@ -282,7 +282,7 @@ func TestGetAllAccounts(t *testing.T) {
 		{
 			name:           "Server Issue",
 			responseStatus: http.StatusInternalServerError,
-			err:            fmt.Errorf("unable to get accounts, status: %d", http.StatusInternalServerError),
+			err:            fmt.Errorf("unable to get, status: %d", http.StatusInternalServerError),
 		},
 	}
 
@@ -303,7 +303,7 @@ func TestGetAllAccounts(t *testing.T) {
 
 			apiClient := New("abc", BaseURL(srv.URL), UnderlyingClient(client))
 			accts, err := apiClient.GetAllAccounts()
-
+			fmt.Println(err)
 			assert.Equal(t, tt.err, err)
 			assert.Equal(t, tt.accounts, accts)
 
