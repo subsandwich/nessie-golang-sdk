@@ -26,10 +26,10 @@ type PostPurchaseInput struct {
 }
 
 type PutPurchaseInput struct {
-	PayerID     string `json:"payer_id"`
-	Medium      string `json:"medium"`
-	Amount      int    `json:"amount"`
-	Description string `json:"description"`
+	PayerID     string `json:"payer_id,omitempty"`
+	Medium      string `json:"medium,omitempty"`
+	Amount      int    `json:"amount,omitempty"`
+	Description string `json:"description,omitempty"`
 }
 
 // GET: Returns the purchases that you are involved in
