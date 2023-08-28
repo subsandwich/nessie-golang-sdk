@@ -33,8 +33,8 @@ type PutPurchaseInput struct {
 }
 
 // GET: Returns the purchases that you are involved in
-func (c *Client) GetPurchasesByAccount(accountId string) (Purchase, error) {
-	return get[Purchase](fmt.Sprintf("accounts/%s/purchases", accountId), c)
+func (c *Client) GetPurchasesByAccount(accountId string) ([]Purchase, error) {
+	return get[[]Purchase](fmt.Sprintf("accounts/%s/purchases", accountId), c)
 }
 
 // GET: Returns the purchase with the specific id
