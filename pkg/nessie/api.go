@@ -7,11 +7,30 @@ import (
 	"net/http"
 )
 
-func get[T any](path string, client *Client) (decodedBody T, err error) {
-	resp, err := client.underlyingClient.Get(client.createURL(path))
+func get[T any](path string, client *Client) (T, error) {
+	url, err := client.createURL(path, nil)
+	if err != nil {
+		var t T
+		return t, err
+	}
+	return underlyingGet[T](url, client)
+}
+
+func getWithQueryParams[T any](path string, params map[string]string, client *Client) (T, error) {
+	url, err := client.createURL(path, &params)
+	if err != nil {
+		var t T
+		return t, err
+	}
+	return underlyingGet[T](url, client)
+}
+
+func underlyingGet[T any](url string, client *Client) (decodedBody T, err error) {
+	resp, err := client.underlyingClient.Get(url)
 	if err != nil {
 		return
 	}
+
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
@@ -28,7 +47,12 @@ func post[T any](path string, input T, client *Client) error {
 		return err
 	}
 
-	resp, err := client.underlyingClient.Post(client.createURL(path), "application/json", bytes.NewBuffer(b))
+	url, err := client.createURL(path, nil)
+	if err != nil {
+		return err
+	}
+
+	resp, err := client.underlyingClient.Post(url, "application/json", bytes.NewBuffer(b))
 	if err != nil {
 		return err
 	}
@@ -46,7 +70,12 @@ func put[T any](path string, input T, client *Client) error {
 		return err
 	}
 
-	req, err := http.NewRequest("PUT", client.createURL(path), bytes.NewBuffer(b))
+	url, err := client.createURL(path, nil)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(b))
 	if err != nil {
 		return err
 	}
@@ -66,7 +95,12 @@ func put[T any](path string, input T, client *Client) error {
 }
 
 func delete(path string, client *Client) error {
-	req, err := http.NewRequest("DELETE", client.createURL(path), nil)
+	url, err := client.createURL(path, nil)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
 		return err
 	}

@@ -1,8 +1,8 @@
 package nessie
 
 import (
-	"fmt"
 	"net/http"
+	"net/url"
 )
 
 type Option func(*Client)
@@ -38,6 +38,21 @@ func New(apiKey string, opts ...Option) *Client {
 	return client
 }
 
-func (c *Client) createURL(path string) string {
-	return fmt.Sprintf("%s/%s?key=%s", c.baseURL, path, c.apiKey)
+func (c *Client) createURL(path string, queryArgs *map[string]string) (string, error) {
+	base, err := url.Parse(c.baseURL)
+	if err != nil {
+		return "", err
+	}
+
+	base.Path += path
+
+	params := url.Values{}
+	if queryArgs != nil {
+		for key, val := range *queryArgs {
+			params.Add(key, val)
+		}
+	}
+	params.Add("key", c.apiKey)
+	base.RawQuery = params.Encode()
+	return base.String(), nil
 }
