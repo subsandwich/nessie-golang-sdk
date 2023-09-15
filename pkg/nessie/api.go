@@ -4,8 +4,37 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
+	"strings"
 )
+
+type NessieError struct {
+	Code     int      `json:"code"`
+	Message  string   `json:"message"`
+	Culprits []string `json:"culprit"`
+}
+
+func (n *NessieError) Error() string {
+	errorMessage := fmt.Sprintf("Nessie status %d, message: %s", n.Code, n.Message)
+	if len(n.Culprits) > 0 {
+		errorMessage += fmt.Sprintf(", culprits: %s", strings.Join(n.Culprits, ", "))
+	}
+
+	return errorMessage
+}
+
+func NewNessieError(rc io.ReadCloser) *NessieError {
+	var nError NessieError
+	if err := json.NewDecoder(rc).Decode(&nError); err != nil {
+		return &NessieError{
+			Code:    0,
+			Message: "Unable to decode response",
+		}
+	}
+
+	return &nError
+}
 
 func get[T any](path string, client *Client) (T, error) {
 	url, err := client.createURL(path, nil)
@@ -34,7 +63,7 @@ func underlyingGet[T any](url string, client *Client) (decodedBody T, err error)
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return decodedBody, fmt.Errorf("unable to get, status: %d", resp.StatusCode)
+		return decodedBody, NewNessieError(resp.Body)
 	}
 
 	err = json.NewDecoder(resp.Body).Decode(&decodedBody)
@@ -54,7 +83,7 @@ func post[T any](path string, input T, client *Client) error {
 
 	resp, err := client.underlyingClient.Post(url, "application/json", bytes.NewBuffer(b))
 	if err != nil {
-		return err
+		return NewNessieError(resp.Body)
 	}
 	defer resp.Body.Close()
 
@@ -83,7 +112,7 @@ func put[T any](path string, input T, client *Client) error {
 
 	resp, err := client.underlyingClient.Do(req)
 	if err != nil {
-		return err
+		return NewNessieError(resp.Body)
 	}
 	defer resp.Body.Close()
 
@@ -111,7 +140,7 @@ func delete(path string, client *Client) error {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusNoContent {
-		return fmt.Errorf("unable to delete, status: %d", resp.StatusCode)
+		return NewNessieError(resp.Body)
 	}
 
 	return nil
